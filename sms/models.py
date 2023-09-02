@@ -8,7 +8,7 @@ class SchoolSession(models.Model):
     session_label = models.CharField(max_length=50)
 
 class SchoolSms(models.Model):
-    user = models.ManyToManyField(CustomUser, related_name='user')
+    user = models.OneToOneField(CustomUser, related_name='user', on_delete = models.CASCADE, blank=True, null=True)
     school_name = models.CharField(max_length=100)
     address = models.CharField(max_length=500)
     mobile = models.CharField(max_length=15)
