@@ -14,10 +14,10 @@ from django.core.exceptions import PermissionDenied
 #function to detect current logged in user
 def detectUser(user):
     if user.role == 1:
-        redirectUrl = 'schoolDashboard'
+        redirectUrl = 'school-dashboard'
         return redirectUrl
     elif user.role == None and user.is_HOD:
-        redirectUrl = 'deptDashboard'
+        redirectUrl = 'department-dashboard'
         return redirectUrl
     elif user.role == None and user.is_superuser:
         redirectUrl = '/admin'
@@ -50,12 +50,11 @@ class LoginView(View):
         if user != None:
             login(request, user)
             return redirect('myAccount')
-         
-            
-            
+    
         else:
             messages.error(request, 'Invalid credentials,try again')
             return redirect("login")
+
 
 
 @login_required(login_url='login')

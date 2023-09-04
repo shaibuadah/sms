@@ -7,11 +7,9 @@ from . models import *
 class UserModel(UserAdmin):
     list_display = ("username", "email", "first_name", "last_name", "role" )
 
-    fieldsets = (
-        (None,{
-            'fields': ('username', 'email', 'role')
-        }),
-    )
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
 
 
 admin.site.register(CustomUser, UserModel)
