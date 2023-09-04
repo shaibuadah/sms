@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required,user_passes_test
-from .models import *
+from .models import SchoolSession, SchoolSms, Department, Student
 from authentication.views import check_role_school, check_role_dept
 
 
@@ -23,7 +23,7 @@ def get_department(request):
 # ========== School Dashboard Function ========== #
 @login_required(login_url='login')
 @user_passes_test(check_role_school)
-def schoolDashboard(request):
+def schooldashboard(request):
     school = get_school(request)
     students = Student.objects.filter(school=school)
     context = {
@@ -35,7 +35,7 @@ def schoolDashboard(request):
 # ========== Department Dashboard Function ========== #
 @login_required(login_url='login')
 @user_passes_test(check_role_dept)
-def deptDashboard(request):
+def deptdashboard(request):
     department = get_department(request)
     students = Student.objects.filter(department=department)
     context = {

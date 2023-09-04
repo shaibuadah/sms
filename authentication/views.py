@@ -12,7 +12,7 @@ from django.core.exceptions import PermissionDenied
 # Create your views here.
 
 #function to detect current logged in user
-def detectUser(user):
+def detectuser(user):
     if user.role == 1:
         redirectUrl = 'school-dashboard'
         return redirectUrl
@@ -49,7 +49,7 @@ class LoginView(View):
         user = authenticate(request, username=request.POST.get('email'), password=request.POST.get('password'))
         if user != None:
             login(request, user)
-            return redirect('myAccount')
+            return redirect('myaccount')
     
         else:
             messages.error(request, 'Invalid credentials,try again')
@@ -58,9 +58,9 @@ class LoginView(View):
 
 
 @login_required(login_url='login')
-def myAccount(request):
+def myaccount(request):
     user = request.user
-    redirectUrl = detectUser(user)
+    redirectUrl = detectuser(user)
     return redirect(redirectUrl)
 
 
