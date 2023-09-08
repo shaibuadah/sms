@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'sms',
     'authentication',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
