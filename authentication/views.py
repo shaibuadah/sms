@@ -20,7 +20,7 @@ def detectuser(user):
         redirectUrl = 'department-dashboard'
         return redirectUrl
     elif user.role == None and user.is_superuser:
-        redirectUrl = '/admin'
+        redirectUrl = 'admin-dashboard'
         return redirectUrl
 
 # Restrict the school from accessing the Dept page

@@ -12,12 +12,12 @@
         
         {% if request.user.is_authenticated %}
         {% comment %} <a href="{% url 'admin-dashboard' %}" class="nav-item nav-link">Admin</a> {% endcomment %}
-        <a href="{% url 'school-dashboard' %}" class="nav-item nav-link">School</a>
-        <a href="{% url 'department-dashboard' %}" class="nav-item nav-link">Department</a>
-        <a href="{% url 'logout' %}" class="nav-item nav-link active">Logout</a>
+          <a href="{% url 'school-dashboard' %}" class="nav-item nav-link">School</a>
+          <a href="{% url 'department-dashboard' %}" class="nav-item nav-link">Department</a>
+          <a href="{% url 'logout' %}" class="nav-item nav-link active">Logout</a>
         {% else %}
-        <a href="{% url 'homepage' %}" class="nav-item nav-link active">Home</a>
-        <a href="{% url 'login' %}" class="nav-item nav-link active">Login</a>
+          <a href="{% url 'homepage' %}" class="nav-item nav-link active">Home</a>
+          <a href="{% url 'login' %}" class="nav-item nav-link active">Login</a> 
         {% endif %}
 
       </div>

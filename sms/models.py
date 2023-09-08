@@ -2,10 +2,9 @@ from django.db import models
 from django.conf import settings
 from authentication.models import CustomUser
 
-# Create your models here.
 
-class SchoolSession(models.Model):
-    session_label = models.CharField(max_length=50)
+
+# Create your models here.
 
 class SchoolSms(models.Model):
     user = models.OneToOneField(CustomUser, related_name='user', on_delete = models.CASCADE, blank=True, null=True)

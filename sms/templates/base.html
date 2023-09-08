@@ -10,7 +10,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <title>SMS - Django</title>
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  <link rel="stylesheet" href="{% static 'sms/css/form-elements.css' %}">
+  <link rel="stylesheet" href="{% static 'sms/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'sms/css/indexstyle.css' %}">
+
 
 </head>
 
@@ -20,6 +24,12 @@
 
   {%endblock content%}
   {% include "partials/footer.html" %}
+
+  <script src="{% static 'sms/js/jquery-1.11.1.min.js' %}"></script>
+  <script src="{% static 'sms/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'sms/js/jquery.backstretch.min.js' %}"></script>
+  <script src="{% static 'sms/js/retina-1.1.0.min.js' %}"></script>
+  <script src="{% static 'sms/js/scripts.js' %}"></script>
 </body>
 
 </html>

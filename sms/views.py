@@ -1,8 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required,user_passes_test
-from .models import SchoolSession, SchoolSms, Department, Student
+from .models import SchoolSms, Department, Student
 from authentication.views import check_role_school, check_role_dept
+
+
+from . import models
 
 
 
@@ -49,3 +52,40 @@ def home_view(request):
     if request.user.is_authenticated:
         pass
     return render(request,'sms/index.html')
+
+
+def admin_dashboard(request):
+    if request.user.is_authenticated:
+        return render(request, 'sms/admin_dashboard.html')
+    
+def admin_school(request):
+    if request.user.is_authenticated:
+        return render(request, 'sms/admin_school.html')
+    
+def admin_department(request):
+    if request.user.is_authenticated:
+        return render(request, 'sms/admin_department.html')
+    
+
+#for dashboard of adminnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+
+@login_required(login_url='login')
+# @user_passes_test(is_admin)
+def admin_dashboard_view(request):
+    schoolcount=models.SchoolSms.objects.all().filter(status=True).count()
+    pendingschoolcount=models.SchoolSms.objects.all().filter(status=False).count()
+
+    departmentcount=models.Department.objects.all().filter(status=True).count()
+    pendingdepartmentcount=models.Department.objects.all().filter(status=False).count()
+
+    #aggregate function return dictionary so fetch data from dictionay
+    mydict={
+        'schoolcount':schoolcount,
+        'pendingschoolcount':pendingschoolcount,
+
+        'departmentcount':departmentcount,
+        'pendingdepartmentcount':pendingdepartmentcount,
+
+    }
+
+    return render(request,'school/admin_dashboard.html',context=mydict)

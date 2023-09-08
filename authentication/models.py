@@ -29,7 +29,6 @@ class CustomUser(AbstractUser):
         if self.role == 1:
             user_role = 'School'
         return user_role
-    
 
 
 
