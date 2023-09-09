@@ -1,0 +1,104 @@
+
+
+
+
+<div id="restaurant-sets-holder">
+    <form action="{% url 'registerSchool' %}" class="form-fields-set foodbakery-dev-restaurant-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <ul class="register-add-restaurant-tab-container restaurant-information-tab-container">
+            <li>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="row">
+                            <ul >
+                                <li>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="field-holder">
+                                            <label>School Admin First name</label>{{user_form.first_name}}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="field-holder">
+                                            <label>School Admin Last name</label>{{user_form.last_name}}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="field-holder">
+                                            <label>School name</label>{{school_form.school_name}}
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="field-holder">
+                                            <label>School Address</label>{{school_form.address}}
+                                        </div>
+                                    </div>
+
+                                    <br>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="field-holder">
+                                            <label>School Mobile No</label>{{school_form.mobile}}
+                                        </div>
+                                    </div>
+
+                                    
+                                    
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="field-holder">
+                                            <label>School Admin Email Address</label>{{user_form.email}}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="field-holder">
+                                            <label>Username</label>{{user_form.username}}
+                                        </div>
+                                    </div>
+                                </li>
+                                
+                                <li>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <div class="field-holder">
+                                            <label>Password</label>
+                                            {{user_form.password}}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <div class="field-holder">
+                                            <label>Confirm Password</label>
+                                            {{user_form.confirm_password}}
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+
+                            
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <ul class="errorlist">
+                    {% for field in form %}
+                        {% if field.errors %}
+                            {% for error in field.errors %}
+                                <li style="color: red;">{{error}}</li>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+
+                    <li style="color: red;">{{form.non_field_errors}}</li>
+                </ul>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="field-holder">
+                            <div class="payment-holder">
+                                <input type="submit" value="Submit" id="btn-next-restaurant-information" class="bgcolor">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </li>
+        </ul>
+    </form>
+</div>

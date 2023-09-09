@@ -1,0 +1,35 @@
+{% load static %}
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <title>SMS - Django</title>
+
+  <link rel="stylesheet" href="{% static 'sms/css/form-elements.css' %}">
+  <link rel="stylesheet" href="{% static 'sms/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'sms/css/indexstyle.css' %}">
+
+
+</head>
+
+<body>
+  {% include "partials/navbar.html" %}
+  {%block content%}
+
+  {%endblock content%}
+  {% include "partials/footer.html" %}
+
+  <script src="{% static 'sms/js/jquery-1.11.1.min.js' %}"></script>
+  <script src="{% static 'sms/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'sms/js/jquery.backstretch.min.js' %}"></script>
+  <script src="{% static 'sms/js/retina-1.1.0.min.js' %}"></script>
+  <script src="{% static 'sms/js/scripts.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+{% extends 'sms/adminbase.html' %}
+
+
+
+{% block content %}
+
+<style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    </style>
+    </head>
+    <body>
+    
+    <h2>ALL SCHOOLS</h2>
+    
+    <table>
+      <tr>
+        <th>Serial</th>
+        <th>School Name</th>
+        <th>Email</th>
+        <th>No of Department</th>
+        {% comment %} <th>No of Students</th> {% endcomment %}
+        <th>Actions</th>
+      </tr>
+      {% for school in all_schools %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td><a href="{% url 'school-detail' school.id %}">{{ school.school_name }}</a></td>
+        <td>{{ school.email }}</td>
+        <td>{{ school.no_of_department }}
+          {% comment %} <td>{{ school.no_of_students }}</td> {{ school.student_set.count }} {% endcomment %}
+        <td><a href="#">Edit</a> 
+            <a style="color: red;" href="{% url 'school-delete' school.id %}">Delete</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+    
+    
+{% endblock %}
