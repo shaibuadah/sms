@@ -39,10 +39,12 @@ def home_view(request):
 @login_required(login_url='login')
 def admin_dashboard(request):
     schoolcount = SchoolSms.objects.all().count()
+    allstudent = Student.objects.all().count()
     pendingschoolcount = SchoolSms.objects.all().count()
 
     mydict={
         'schoolcount':schoolcount,
+        'allstudent': allstudent,
         'pendingschoolcount':pendingschoolcount,
     }
     return render(request,'sms/admin_dashboard.html',context=mydict)
@@ -115,8 +117,8 @@ def registerSchool(request):
 
 # ========== Super-Admin View School Detail ========== #
 @login_required(login_url='login')
-def admin_viewschool_detail(request, school_id):
-    school = get_object_or_404(SchoolSms, id=school_id)
+def admin_viewschool_detail(request, id):
+    school = get_object_or_404(SchoolSms, id=id)
     school_departments = Department.objects.filter(school=school).annotate(no_of_students=Count('student_department'))
 
     departments = Department.objects.filter(school=school).count()
@@ -157,7 +159,7 @@ def admin_viewschool_detail(request, school_id):
             department.save()
 
             # messages.success(request, 'Your account has been registered sucessfully! Please wait for the approval.')
-            return redirect('admin-viewschool-detail', id = school_id)
+            return redirect('admin-viewschool-detail', id = id)
         else:
             print('invalid form')
             print(user_form.errors)
@@ -167,23 +169,40 @@ def admin_viewschool_detail(request, school_id):
 
     return render(request, 'sms/admin_viewschool_detail.html', context)
 
-
+# ========== Super-Admin view particular school student ========== #
+@login_required(login_url='login')
+def adminview_singleschool_student(request, id):
+    school = get_object_or_404(SchoolSms, id=id)
+    school_student = Student.objects.filter(school=school)
+    mydict={
+        'school': school,
+        'school_student': school_student,
+    }
+    return render(request, 'sms/adminview_singleschool_student.html', context=mydict)
 
 # ========== Super-Admin Delete School ========== #
 @login_required(login_url='login')
-def School_Delete(request, school_id):
-    school = get_object_or_404(SchoolSms, id=school_id)
+def admin_School_Delete(request, id):
+    school = get_object_or_404(SchoolSms, id=id)
+    user = CustomUser.objects.get(email = school.email)
     school.delete()
+    user.delete()
     # messages.success(request, 'School Deleted')
-    return redirect('admin-view-allschools')
+    return redirect('admin-view-allschool')
 
 
 
 # ========== Super-Admin Manage Departments ========== #
 @login_required(login_url='login')  
-def admin_department(request):
+def admin_view_allstudents(request):
     if request.user.is_authenticated:
-        return render(request, 'sms/admin_department.html')
+        all_student = Student.objects.all()
+        mydict = {
+            'all_student': all_student
+        }
+        return render(request, 'sms/admin_view_allstudents.html', context=mydict)
+    
+
 
 
 

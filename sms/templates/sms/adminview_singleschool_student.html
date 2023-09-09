@@ -1,0 +1,129 @@
+{% extends 'sms/adminbase.html' %}
+
+
+
+{% block content %}
+
+<meta charset="utf-8">
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <link href="http://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+
+  <style type="text/css">
+    a:link {
+      text-decoration: none;
+    }
+
+    .order-card {
+      color: #fff;
+    }
+
+    .bg-c-blue {
+      background: linear-gradient(45deg, #4099ff,#4a5c64);
+    }
+
+    .bg-c-green {
+      background: linear-gradient(45deg, #2ed8b6, #4a5c64);
+    }
+
+    .bg-c-yellow {
+      background: linear-gradient(45deg, #FFB64D, #4a5c64);
+    }
+
+    .bg-c-pink {
+      background: linear-gradient(45deg, #30a33a, #4a5c64);
+    }
+
+
+    .card {
+      border-radius: 5px;
+      -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+      box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+      border: none;
+      margin-bottom: 30px;
+      -webkit-transition: all 0.3s ease-in-out;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .card .card-block {
+      padding: 25px;
+    }
+
+    .order-card i {
+      font-size: 26px;
+    }
+
+    .f-left {
+      float: left;
+    }
+
+    .f-right {
+      float: right;
+    }
+
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      
+      td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+      
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+  </style>
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+ 
+<div class="container">
+
+ 
+   
+
+    <br>
+
+
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h6>All Student(s)</h6>
+        </div>
+        <table class="table table-hover table-striped table-bordered" id="dev-table">
+            <tr >
+              <th>Serial</th>
+              <th>Matric Number</th>
+              <th>Name</th>
+              <th>Department</th>
+              <th>Mobile</th>
+              <th>Account Number</th>
+              <th>Bank</th>
+            </tr>
+            {% for student in school_student %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ student.matric_no }}</td>
+              <td>{{ student.fname }} {{ student.lname }}</td>
+              <td>{{ student.department.dept_name }}</td>
+              <td>{{ student.mobile }}</td>
+              <td>{{ student.acct_no }}</td>
+              <td>{{ student.bank_name }}</td>
+
+            {% endfor %}
+          </table>
+    </div>
+
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+{% endblock %}
