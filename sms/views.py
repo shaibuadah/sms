@@ -180,6 +180,47 @@ def adminview_singleschool_student(request, id):
     }
     return render(request, 'sms/adminview_singleschool_student.html', context=mydict)
 
+# ========== Super-Admin Edit School ========== #
+@login_required(login_url='login')
+def admin_School_Edit(request, id):
+    school = get_object_or_404(SchoolSms, id=id)
+    
+    user_detail = school.user
+    context = {
+        'user_values': user_detail,
+        'school_values': school
+    }
+    if request.method == "GET":
+        return render(request, 'sms/admin_edit_school.html', context)
+    if request.method == "POST":
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        username = request.POST['username']
+        email = request.POST['email']
+        school_name = request.POST['school_name']
+        address = request.POST['address']
+        mobile = request.POST['mobile']
+        
+        user_detail.first_name = first_name
+        user_detail.last_name = last_name
+        user_detail.username = username
+        user_detail.email  = email
+        school.school_name = school_name
+        school.address = address
+        school.mobile = mobile
+
+        user_detail.save()
+        school.save()
+
+        return redirect('admin-viewschool-detail', id=id)
+ 
+
+    
+    
+    # messages.success(request, 'School Edited successfuly')
+    # return redirect('admin-view-allschool')
+    return render(request, 'sms/admin_edit_school.html', context)
+
 # ========== Super-Admin Delete School ========== #
 @login_required(login_url='login')
 def admin_School_Delete(request, id):
