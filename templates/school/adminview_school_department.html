@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="pagetitle">
+   <h1>Department(s) in {{school}} School</h1>
+   <nav>
+       <ol class="breadcrumb">
+           <li class="breadcrumb-item"><a href="{% url "adminDashboard" %}">Home</a></li>
+           <li class="breadcrumb-item active">Students by Department</li>
+       </ol>
+   </nav>
+</div>
+
+<section class="section">
+    <div class="row">
+       <div class="col-lg-12">
+          <div class="card">
+             <div class="card-body">
+                <h5 class="card-title">All Department(s)</h5>
+                <table class="table datatable">
+                   <thead>
+                      <tr>
+                         <th scope="col">#</th>
+                         <th scope="col">Department Name</th>
+                         <th scope="col">Email</th>
+                         <th scope="col">No of Students</th>
+                         <th scope="col">Actions</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                     {% for department in departments %}
+                        <tr>
+                           <th scope="row">{{forloop.counter}}</th>
+                           <td>{{department.department_name}}</td>
+                           <td>dept@email.com</td>
+                           <td>{{fooditems}}</td>
+                           <td>
+                              <a href="#"><i class="text-danger bi bi-trash"></a>
+                              <a href="#"><i class="text-success bi bi-pencil-square"></a>
+                              <a href="#"><i class="text-danger bi bi-trash"></a>
+                              
+                           </td>
+                      </tr>
+                     {% endfor %}
+                   </tbody>
+                </table>
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>
+
+ {% endblock %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="pagetitle">
+   <h1>APPROVE SCHOOL(S)</h1>
+   <nav>
+       <ol class="breadcrumb">
+           <li class="breadcrumb-item"><a href="{% url "adminDashboard" %}">Home</a></li>
+           <li class="breadcrumb-item active">Approve school(s)</li>
+       </ol>
+   </nav>
+</div>
+
+<section class="section">
+    <div class="row">
+       <div class="col-lg-12">
+          <div class="card">
+             <div class="card-body">
+                <h5 class="card-title">School(s) awaiting approval</h5>
+            <form method="post">
+                {% csrf_token %}
+                <table class="table datatable">
+                   <thead>
+                      <tr>
+                         <th scope="col">#</th>
+                         <th scope="col">School Name</th>
+                         <th scope="col">Email</th>
+                         <th scope="col">Created at</th>
+                         <th scope="col">Actions</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                     {% for school in allSchools %}
+                        <tr>
+                           <th scope="row">{{forloop.counter}}</th>
+                           <td>{{school.school_name}}</td>
+                           <td>{{school.user.email}}</td>
+                           <td>{{school.created_at}}</td>
+                           <td>
+                            <input class="form-check-input" value="{{school.id}}" name="approve" type="checkbox" id="gridCheck1">
+                           </td>
+                      </tr>
+                     {% endfor %}
+                   </tbody>
+                   <button type="submit" class="btn btn-primary">Submit</button>
+                </table>
+            </form>
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>
+
+ {% endblock %}

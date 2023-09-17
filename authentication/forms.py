@@ -2,12 +2,13 @@ from django import forms
 from .models import CustomUser
 
 
+
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
     confirm_password = forms.CharField(widget=forms.PasswordInput())
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'username', 'email', 'password']
+        fields = ['name', 'username', 'email', 'address', 'about', 'mobile', 'state', 'password']
 
     def clean(self):
         cleaned_data = super(UserForm, self).clean()
@@ -18,3 +19,11 @@ class UserForm(forms.ModelForm):
             raise forms.ValidationError(
                 "Password does not match!"
             )
+
+
+
+class UserInfoForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['name', 'username', 'email', 'address', 'about', 'mobile', 'state',]
+

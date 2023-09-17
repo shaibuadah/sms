@@ -13,4 +13,3 @@ class UserModel(UserAdmin):
 
 
 admin.site.register(CustomUser, UserModel)
-

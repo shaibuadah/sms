@@ -1,27 +1,35 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse
-from django.contrib.auth import login, logout, authenticate
-from django.views import View
-from django.contrib import messages
-from .models import CustomUser
-from django.http import HttpResponseRedirect
-from django.contrib.auth.decorators import login_required,user_passes_test
+from django.contrib import messages, auth
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.exceptions import PermissionDenied
+from django.template.defaultfilters import slugify
 
+
+from django.urls import reverse_lazy
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
+
+
+from .models import CustomUser
+from .forms import UserForm, UserInfoForm
+
+from school.models import School, Student
+from school.forms import SchoolForm
 
 # Create your views here.
 
 #function to detect current logged in user
 def detectuser(user):
     if user.role == 1:
-        redirectUrl = 'school-dashboard'
+        redirectUrl = 'schoolDashboard'
         return redirectUrl
     elif user.role == None and user.is_HOD:
-        redirectUrl = 'department-dashboard'
+        redirectUrl = 'deptDashboard'
         return redirectUrl
     elif user.role == None and user.is_superuser:
-        redirectUrl = 'admin-dashboard'
+        redirectUrl = 'adminDashboard'
         return redirectUrl
+
 
 # Restrict the school from accessing the Dept page
 def check_role_school(user):
@@ -39,35 +47,147 @@ def check_role_dept(user):
         raise PermissionDenied
 
 
-class LoginView(View):
-    def get(self, request):
-        if request.user.is_authenticated:
-            pass
-        return render(request, 'authentication/login.html')
+# Restrict the Dept from accessing the School page
+def check_role_superuser(user):
+    if user.role  == None and user.is_superuser:
+        return True
+    else:
+        raise PermissionDenied
 
-    def post(self, request):
-        user = authenticate(request, username=request.POST.get('email'), password=request.POST.get('password'))
-        if user != None:
-            login(request, user)
-            return redirect('myaccount')
-    
+
+
+def Schoolregistration(request):
+    if request.user.is_authenticated:
+        messages.warning(request, 'You are already logged in!')
+        return redirect('myAccount')
+    elif request.method == 'POST':
+        # store the data and create the user
+        form = UserForm(request.POST)
+        school_form = SchoolForm(request.POST)
+        if form.is_valid() and school_form.is_valid:
+            name = form.cleaned_data['name']
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = CustomUser.objects.create_user(name=name,
+                                            username=username, 
+                                            email=email,
+                                            password=password)
+            user.role = CustomUser.SCHOOL
+            user.save()
+            school = school_form.save(commit=False)
+            school.user = user
+            school_name = school_form.cleaned_data['school_name']
+            school.slug = slugify(school_name)+'-'+str(user.id)
+            school.save()
+
+
+            messages.success(request, 'Your account has been registered sucessfully! Please wait for the approval.')
+            return redirect('/')
         else:
-            messages.error(request, 'Invalid credentials,try again')
-            return redirect("login")
+            print('invalid form')
+            print(form.errors)
+    else:
+        form = UserForm()
+        school_form = SchoolForm()
+
+    context = {
+        'form': form,
+        'school_form': school_form,
+    }
+
+    return render(request, 'authentication/registerSchool.html', context)
+
+
+
+
+def login(request):
+    if request.user.is_authenticated:
+        messages.warning(request, 'You are already logged in!')
+        return redirect('myAccount')
+    elif request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+
+        user = auth.authenticate(email=email, password=password)
+
+        if user is not None:
+            auth.login(request, user)
+            messages.success(request, 'You are now logged in.')
+            return redirect('myAccount')
+        else:
+            messages.error(request, 'Invalid login credentials')
+            return redirect('login')
+    return render(request, 'home.html')
 
 
 
 @login_required(login_url='login')
-def myaccount(request):
+def myAccount(request):
     user = request.user
     redirectUrl = detectuser(user)
     return redirect(redirectUrl)
 
 
 
-
-def logout_user(request):
+def logout(request):
     if request.user != None:
-        logout(request)
+        auth.logout(request)
         messages.error(request, 'You have been logged out')
-    return redirect("homepage")
+    return redirect("/")
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_superuser)
+def adminDashboard(request):
+    schoolcount = School.objects.all().count()
+    allstudent = Student.objects.all().count()
+    pendingschoolcount = School.objects.filter(is_approved=False).count()
+
+    context = {
+        'schoolcount':schoolcount,
+        'allstudent': allstudent,
+        'pendingschoolcount':pendingschoolcount,
+    }
+    return render(request, 'authentication/adminDashboard.html', context)
+
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_superuser)
+def adminProfile(request):
+    profile = request.user
+
+    if request.method == 'POST':
+        form = UserInfoForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'School info updated successfully.')
+            return redirect('adminProfile')
+        else:
+            print(form.errors)
+            messages.error(request, 'Something Went Wrong.')
+    else:
+        form = UserInfoForm(instance=profile)
+
+    context = {
+        'form': form,
+        'profile': profile,
+    }
+    return render(request, 'authentication/adminProfile.html', context)
+
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_school)
+def schoolDashboard(request):
+    return render(request, 'authentication/schoolDashboard.html')
+
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_dept)
+def deptDashboard(request):
+    return render(request, 'authentication/deptDashboard.html')
+
+

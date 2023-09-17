@@ -1,0 +1,171 @@
+{% load static %}
+<html lang="en"> <!--<![endif]-->
+
+<!-- index239:29 GMT -->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <title>LearnPLUS | Learning Management System</title>
+  <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'settings.css' %}" media="screen" />
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'custom_style.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+  <div id="loader">
+    <div class="loader-container">
+      <img src="images/site.gif" alt="" class="loader-site">
+    </div>
+  </div>
+  <div id="wrapper">
+    <div class="topbar">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 text-left">
+            <p><i class="fa fa-graduation-cap"></i> Best School Management System ever.</p>
+          </div>
+          <div class="col-md-6 text-right">
+            <ul class="list-inline">
+              <li>
+                <a class="social" href="#"><i class="fa fa-address-book"></i></a>
+                <a class="social" href="#"><i class="fa fa-twitter"></i></a>
+                <a class="social" href="#"><i class="fa fa-google-plus"></i></a>
+                <a class="social" href="#"><i class="fa fa-linkedin"></i></a>
+              </li>
+              <li class="dropdown">
+                <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-lock"></i> Login</a>
+                <div class="dropdown-menu">
+                  <form method="post" {% url "login" %}>
+                    {% csrf_token %}
+                    <div class="form-title">
+                      <h4>Login Area</h4>
+                      <hr>
+                    </div>
+                    <input class="form-control" type="email" name="email" placeholder="Email Address">
+                    <div class="formpassword">
+                      <input class="form-control" type="password" name="password" placeholder="******">
+                    </div>
+                    <div class="clearfix"></div>
+                    <button type="submit" class="btn btn-block btn-primary">Login</button>
+                  </form>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header class="header">
+      <div class="container">
+        <div class="hovermenu ttmenu">
+          <div class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="fa fa-bars"></span>
+              </button>
+              <div class="logo">
+                <a class="navbar-brand" href="index-2.html"><img src="images/xlogo.png.pagespeed.ic.vap6Ukaf0i.png"
+                    alt=""></a>
+              </div>
+            </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li><a class="active" href="blog.html">Home</a></li>
+                <li><a href="page-about.html">About</a></li>
+                <li><a href="page-contact.html">Contact</a></li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li><a class="btn btn-primary" href="{% url "Schoolregistration" %}"><i class="fa fa-sign-in"></i> Register School Now</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <section class="slider-section">
+      <div class="tp-banner-container">
+        <div class="tp-banner">
+          <ul>
+            <li data-transition="fade" data-slotamount="1" data-masterspeed="500" data-thumb="upload/slider_new_03.jpg"
+              data-saveperformance="off" data-title="Slide">
+              <img src="{% static 'xslider_new_03.jpg.pagespeed.ic.0dDeZb1yS7.jpg' %}" alt="fullslide1"
+                data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat">
+              <div class="tp-caption slider_layer_05 text-center lft tp-resizeme" data-x="center" data-y="240"
+                data-speed="1000" data-start="600" data-easing="Power3.easeInOut" data-splitin="none"
+                data-splitout="none" data-elementdelay="0.1" data-endelementdelay="0.1" data-endspeed="1000"
+                style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;"><i
+                  class="fa fa-graduation-cap"></i>
+              </div>
+              <div class="tp-caption slider_layer_01 text-center lft tp-resizeme" data-x="center" data-y="350"
+                data-speed="1000" data-start="600" data-easing="Power3.easeInOut" data-splitin="none"
+                data-splitout="none" data-elementdelay="0.1" data-endelementdelay="0.1" data-endspeed="1000"
+                style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">School Management System
+              </div>
+              <div class="tp-caption slider_layer_02 text-center lft tp-resizeme" data-x="center" data-y="460"
+                data-speed="1000" data-start="800" data-easing="Power3.easeInOut" data-splitin="none"
+                data-splitout="none" data-elementdelay="0.1" data-endelementdelay="0.1" data-endspeed="1000"
+                style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">Great Theme For Education,
+                University Learning Websites<br> with tons of options and custom sections!
+              </div>
+              <div class="tp-caption text-center lft tp-resizeme" data-x="center" data-y="540" data-speed="1000"
+                data-start="800" data-easing="Power3.easeInOut" data-splitin="none" data-splitout="none"
+                data-elementdelay="0.1" data-endelementdelay="0.1" data-endspeed="1000"
+                style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;"> <a target="_blank" href="#"
+                  class="btn btn-primary">Purchase Now</a> <a target="_blank" href="#" class="btn btn-default">Read More
+                  About</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    
+
+    <section class="copyright">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 text-left">
+            <p><a target="_blank" href="https://www.templateshub.net">Templates Hub</a></p>
+          </div>
+          <div class="col-md-6 text-right">
+            <ul class="list-inline">
+              <li><a href="#">Terms of Usage</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Sitemap</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {% include "partials/_messages.html" %}
+  </div>
+  <script src="{% static 'jquery.min.js.pagespeed.jm.iDyG3vc4gw.js' %}"></script>
+  <script src="{% static 'bootstrap.min.js%2bretina.js%2bwow.js.pagespeed.jc.pMrMbVAe_E.js' %}"></script>
+  <script>eval(mod_pagespeed_gFRwwUbyVc);</script>
+  <script>eval(mod_pagespeed_rQwXk4AOUN);</script>
+  <script>eval(mod_pagespeed_U0OPgGhapl);</script>
+  <script src="{% static 'carousel.js%2bparallax.min.js%2bcustom.js.pagespeed.jc.lVSvRd9-tY.js' %}"></script>
+  <script>eval(mod_pagespeed_6Ja02QZq$f);</script>
+  <script>eval(mod_pagespeed_AZ_gON44eP);</script>
+  <script>eval(mod_pagespeed_KxQMf5X6rF);</script>
+  <script src="{% static 'jquery.themepunch.tools.min.js.pagespeed.jm.0PLSBOOLZa.js' %}"></script>
+  <script src="{% static 'jquery.themepunch.revolution.min.js' %}"></script>
+  <script>jQuery(document).ready(function () { jQuery('.tp-banner').show().revolution({ dottedOverlay: "none", delay: 16000, startwidth: 1170, startheight: 820, hideThumbs: 200, thumbWidth: 100, thumbHeight: 50, thumbAmount: 5, navigationType: "none", navigationArrows: "solo", navigationStyle: "preview3", touchenabled: "on", onHoverStop: "on", swipe_velocity: 0.7, swipe_min_touches: 1, swipe_max_touches: 1, drag_block_vertical: false, parallax: "mouse", parallaxBgFreeze: "on", parallaxLevels: [10, 7, 4, 3, 2, 5, 4, 3, 2, 1], parallaxDisableOnMobile: "off", keyboardNavigation: "off", navigationHAlign: "center", navigationVAlign: "bottom", navigationHOffset: 0, navigationVOffset: 20, soloArrowLeftHalign: "left", soloArrowLeftValign: "center", soloArrowLeftHOffset: 20, soloArrowLeftVOffset: 0, soloArrowRightHalign: "right", soloArrowRightValign: "center", soloArrowRightHOffset: 20, soloArrowRightVOffset: 0, shadow: 0, fullWidth: "on", fullScreen: "off", spinner: "spinner4", stopLoop: "off", stopAfterLoops: -1, stopAtSlide: -1, shuffle: "off", autoHeight: "off", forceFullWidth: "off", hideThumbsOnMobile: "off", hideNavDelayOnMobile: 1500, hideBulletsOnMobile: "off", hideArrowsOnMobile: "off", hideThumbsUnderResolution: 0, hideSliderAtLimit: 0, hideCaptionAtLimit: 0, hideAllCaptionAtLilmit: 0, startWithSlide: 0, fullScreenOffsetContainer: "" }); });</script>
+</body>
+
+<!-- index239:30 GMT -->
+
+</html>

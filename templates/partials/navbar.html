@@ -1,0 +1,74 @@
+
+<header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between"> <a href="{% url "myAccount" %}" class="logo d-flex align-items-center"> <i class="bi bi-building"></i> <span class="d-none d-lg-block">&nbsp;SMS</span> </a> <i class="bi bi-list toggle-sidebar-btn"></i></div>
+    <div class="search-bar">
+       <form class="search-form d-flex align-items-center" method="POST" action="#"> <input type="text" name="query" placeholder="Search" title="Enter search keyword"> <button type="submit" title="Search"><i class="bi bi-search"></i></button></form>
+    </div>
+    <nav class="header-nav ms-auto">
+       <ul class="d-flex align-items-center">
+          <li class="nav-item d-block d-lg-none"> <a class="nav-link nav-icon search-bar-toggle " href="#"> <i class="bi bi-search"></i> </a></li>
+          
+          <li class="nav-item dropdown pe-3">
+             <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown"> <span class="d-none d-md-block dropdown-toggle ps-2">{{request.user.email}}</span> </a>
+             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                <li class="dropdown-header">
+                     <h6>{{request.user.email}}</h6>
+                     {% if request.user.is_superuser %}
+                        <span>SuperUser</span>
+                     {% elif request.user.role == 1 %}
+                     <span>School Admin</span>
+                     {% else %}
+                     <span>HOD</span>
+                     {% endif %}
+                   
+                </li>
+                <li>
+                   <hr class="dropdown-divider">
+                </li>
+
+                  {% if request.user.is_superuser %}
+                  <li> <a class="dropdown-item d-flex align-items-center" href="{% url "adminProfile" %}"> <i class="bi bi-person"></i> <span>My Profile</span> </a></li>
+                  {% elif request.user.role == 1 %}
+                  <li> <a class="dropdown-item d-flex align-items-center" href="{% url "schoolProfile" %}"> <i class="bi bi-person"></i> <span>My Profile</span> </a></li>
+                  {% else %}
+                  <li> <a class="dropdown-item d-flex align-items-center" href=""> <i class="bi bi-person"></i> <span>My Profile</span> </a></li>
+                  {% endif %}
+                
+                <li>
+                   <hr class="dropdown-divider">
+                </li>
+                <li> <a class="dropdown-item d-flex align-items-center text-danger" href="{% url "logout" %}"> <i class="bi bi-box-arrow-right"></i> <span>Sign Out</span> </a></li>
+             </ul>
+          </li>
+       </ul>
+    </nav>
+ </header>
+ {% if request.user.is_superuser %}
+ <aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+       <li class="nav-item"> <a class="nav-link " href="{% url "myAccount" %}"> <i class="bi bi-grid"></i> <span>Dashboard</span> </a></li>
+       
+       <li class="nav-heading">Functions</li>
+       <li class="nav-item"> <a class="nav-link collapsed" href="{% url "admin-AddSchool" %}"> <i class="bi bi-person-plus-fill"></i> <span>Add School</span> </a></li>
+       <li class="nav-item"> <a class="nav-link collapsed" href="{% url "admin-view-AllSchools" %}"> <i class="bi bi-people-fill"></i> <span>View Schools</span> </a></li>
+       <li class="nav-item"> <a class="nav-link collapsed" href="{% url "admin-approve-Schools" %}"> <i class="bi bi-check2-circle"></i> <span>School(s) awaiting approval</span>
+         <li class="nav-item"> <a class="nav-link collapsed" href="{% url "admin-view-allStudents" %}"> <i class="bi bi-people-fill"></i> <span>View Student(s)</span> </a></li>
+    </ul>
+ </aside>
+ {% elif request.user.role == 1 %}
+ <aside id="sidebar" class="sidebar">
+   <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-item"> <a class="nav-link " href="{% url "myAccount" %}"> <i class="bi bi-grid"></i> <span>Dashboard</span> </a></li>
+      
+      <li class="nav-heading">Functions</li>
+   </ul>
+</aside>
+ {% else %}
+ <aside id="sidebar" class="sidebar">
+   <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-item"> <a class="nav-link " href="{% url "myAccount" %}"> <i class="bi bi-grid"></i> <span>Dashboard</span> </a></li>
+      
+      <li class="nav-heading">Functions</li>
+   </ul>
+</aside>
+ {% endif %}

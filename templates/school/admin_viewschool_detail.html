@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="pagetitle">
+    <h1>SCHOOL DETAILS</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url "adminDashboard" %}">Dashboard</a></li>
+            <li class="breadcrumb-item active">School Details</li>
+        </ol>
+    </nav>
+</div>
+<section class="section profile">
+    <div class="row">
+        <div class="col-xl-4">
+            <div class="card">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                <h2>{{school.school_name}}</h2>
+                <h3>{{school.user.email}}</h3>
+                <div class="social-links mt-2"> <a href="#" class="twitter"><i class="bi bi-twitter"></i></a> <a
+                        href="#" class="facebook"><i class="bi bi-facebook"></i></a> <a href="#" class="instagram"><i
+                        class="bi bi-instagram"></i></a> <a href="#" class="linkedin"><i
+                        class="bi bi-linkedin"></i></a></div>
+            </div>
+            </div>
+        </div>
+        <div class="col-xl-8">
+            <div class="card">
+            <div class="card-body pt-3">
+                <ul class="nav nav-tabs nav-tabs-bordered">
+                    <li class="nav-item">
+                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Department(s)</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Student(s)</button>
+                    </li>
+                </ul>
+                <div class="tab-content pt-2">
+                    <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                        <h5 class="card-title">About</h5>
+                        <p class="small fst-italic">{{school.user.about}}</h5>
+                        <div class="row">
+                        <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                        <div class="col-lg-9 col-md-8">{{school.school_name}}</div>
+                        </div>
+                        <div class="row">
+                        <div class="col-lg-3 col-md-4 label">Mobile</div>
+                        <div class="col-lg-9 col-md-8">{{school.user.mobile}}</div>
+                        </div>
+                        <div class="row">
+                        <div class="col-lg-3 col-md-4 label">Address</div>
+                        <div class="col-lg-9 col-md-8">{{school.user.address}}</div>
+                        </div>
+                        <div class="row">
+                        <div class="col-lg-3 col-md-4 label">State</div>
+                        <div class="col-lg-9 col-md-8">{{school.user.state}}</div>
+                        </div>
+                        <div class="row">
+                        <div class="col-lg-3 col-md-4 label">Email</div>
+                        <div class="col-lg-9 col-md-8">{{school.user.email}}</div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                        <h5 class="card-title">Department(s) in this School</h5>
+                        <table class="table datatable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Department Name</th>
+                                    <th scope="col">Department Email</th>
+                                    <th scope="col">No Students</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for department in school_departments %}
+                                    <tr>
+                                    <th scope="row">{{forloop.counter}}</th>
+                                    <td>{{department.department_name}}</td>
+                                    <td>{{department.user.email}}</td>
+                                    <td><a href="{% url 'admin_students_by_school' school.id %}">{{department.no_of_students}}</a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="tab-pane fade pt-3" id="profile-change-password">
+                        <h5 class="card-title">Department(s) in this School</h5>
+                        <table class="table datatable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Student Name</th>
+                                    <th scope="col">Student Email</th>
+                                    <th scope="col">Due for Payment</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in students %}
+                                    <tr>
+                                    <th scope="row">{{forloop.counter}}</th>
+                                    <td>{{student.student_name}}</td>
+                                    <td>student@email.com</td>
+                                    <td>Yes</td>
+                                    <td><a href="{% url "admin_viewschool_detail" school.slug %}" class="btn btn-success">Pay Now</a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
