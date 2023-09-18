@@ -6,7 +6,7 @@ urlpatterns = [
     # path('', views.myAccount),
     path('Schoolregistration/', views.Schoolregistration, name='Schoolregistration'),
 
-    path('', views.login, name='login'),
+    path('authentication/login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
     path('myAccount/', views.myAccount, name='myAccount'),
     path('adminProfile/', views.adminProfile, name='adminProfile'),

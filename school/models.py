@@ -37,14 +37,18 @@ class Department(models.Model):
 
 
 class Student(models.Model):
+    matric_no = models.CharField(max_length=15, unique=True)
+    fname = models.CharField(max_length=50)
+    lname = models.CharField(max_length=50)
     school = models.ForeignKey(School, on_delete=models.CASCADE)
     department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='student_department')
-    student_name = models.CharField(max_length=50)
-    slug = models.SlugField(max_length=100, unique=True)
-    account_number = models.TextField(max_length=250, blank=True)
-    is_due4payment = models.BooleanField(default=False)
+    bank_name = models.CharField(max_length=10)
+    account_number = models.CharField(max_length=250, blank=True)
+    mobile = models.CharField(max_length=15)
+    email = models.EmailField(unique=True)
+    payment_status = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.student_name
+        return self.matric_no +' ' + self.fname + ' ' + self.lname

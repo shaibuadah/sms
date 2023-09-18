@@ -118,7 +118,7 @@ def login(request):
         else:
             messages.error(request, 'Invalid login credentials')
             return redirect('login')
-    return render(request, 'home.html')
+    return render(request, 'authentication/login.html')
 
 
 

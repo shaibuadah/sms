@@ -46,13 +46,13 @@
  {% if request.user.is_superuser %}
  <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
-       <li class="nav-item"> <a class="nav-link " href="{% url "myAccount" %}"> <i class="bi bi-grid"></i> <span>Dashboard</span> </a></li>
+       <li class="nav-item"> <a class="nav-link " href="{% url 'myAccount' %}"> <i class="bi bi-grid"></i> <span>Dashboard</span> </a></li>
        
        <li class="nav-heading">Functions</li>
-       <li class="nav-item"> <a class="nav-link collapsed" href="{% url "admin-AddSchool" %}"> <i class="bi bi-person-plus-fill"></i> <span>Add School</span> </a></li>
-       <li class="nav-item"> <a class="nav-link collapsed" href="{% url "admin-view-AllSchools" %}"> <i class="bi bi-people-fill"></i> <span>View Schools</span> </a></li>
-       <li class="nav-item"> <a class="nav-link collapsed" href="{% url "admin-approve-Schools" %}"> <i class="bi bi-check2-circle"></i> <span>School(s) awaiting approval</span>
-         <li class="nav-item"> <a class="nav-link collapsed" href="{% url "admin-view-allStudents" %}"> <i class="bi bi-people-fill"></i> <span>View Student(s)</span> </a></li>
+       <li class="nav-item"> <a class="nav-link collapsed" href="{% url 'admin-AddSchool' %}"> <i class="bi bi-person-plus-fill"></i> <span>Add School</span> </a></li>
+       <li class="nav-item"> <a class="nav-link collapsed" href="{% url 'admin-view-AllSchools' %}"> <i class="bi bi-people-fill"></i> <span>View Schools</span> </a></li>
+       <li class="nav-item"> <a class="nav-link collapsed" href="{% url 'admin-view-allStudents' %}"> <i class="bi bi-people-fill"></i> <span>View Student(s)</span> </a></li>
+       <li class="nav-item"> <a class="nav-link collapsed" href="{% url 'adminview-studentdue4payment' %}"> <i class="bi bi-people-fill"></i> <span>Student(s) Due for Payment</span> </a></li>
     </ul>
  </aside>
  {% elif request.user.role == 1 %}

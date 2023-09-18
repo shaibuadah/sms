@@ -21,7 +21,7 @@
                 <form class="row g-3" method="post" autocomplete="off" novalidate>
                     {% csrf_token %}
                     <div class="col-md-12">
-                        <label for="inputName5" class="form-label">School Name</label>
+                        <label for="inputName5" class="form-label">Admin Name</label>
                         {% render_field form.name class="form-control" id="name"%}
                     </div>
                     <div class="col-md-12">
@@ -42,13 +42,13 @@
                     </div>
                     <div class="col-12">
                         <label for="inputAddress5" class="form-label">Address</label>
-                        {% render_field form.address class="form-control" id="address" placeholder="1234 Main St"%}
+                        {% render_field form.address class="form-control" id="address" rows="3" placeholder="1234 Main St"%}
                     </div>
 
-                    <div class="col-md-7">
+                    {% comment %} <div class="col-md-7">
                         <label for="inputCity" class="form-label">City</label>
                         {% render_field form.state class="form-control" id="state" placeholder="State"%}
-                    </div>
+                    </div> {% endcomment %}
                     
                     <div class="col-md-6">
                         <label for="inputPassword5" class="form-label">Password</label>

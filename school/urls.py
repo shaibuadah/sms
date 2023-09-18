@@ -15,5 +15,7 @@ urlpatterns = [
 
     path('delete/<slug:school_slug>/', views.admin_School_Delete, name='admin-school-delete'),
     path('allStudents/', views.admin_view_students, name='admin-view-allStudents'),
+    path('studentdue4payment/', views.admin_view_studentsdue4payment, name='adminview-studentdue4payment'),
+    path('send_paymentconfirmation/', views.send_paymentconfirmationtostudent, name='send-paymentconfirmation'),
 
 ]

@@ -3,6 +3,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Count
 from django.template.defaultfilters import slugify
+from django.core.mail import send_mail, EmailMessage
+from django.template.loader import get_template
 
 from authentication.forms import UserForm, UserInfoForm
 from authentication.models import CustomUser
@@ -10,6 +12,9 @@ from authentication.views import check_role_superuser, check_role_school, check_
 
 from .models import School, Department, Student
 from .forms import SchoolForm, SchoolInfoForm
+
+
+
 
 
 # Get Current Logedin School
@@ -208,4 +213,47 @@ def admin_view_students(request):
         'students': students,
     }
     return render(request, 'school/adminview_allStudents.html', context)
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_superuser)
+def admin_view_studentsdue4payment(request):
+    students = Student.objects.filter(payment_status=False)
+    for students in students:
+        email_address = students.email
+        if request.method == 'POST':
+            student_id = request.POST.getlist('payment')
+            for i in student_id:            
+                message = 'Congratulations you have been paid'
+            
+                subject = 'Payment Confirmation'
+                context = {'student_name': students.fname,'message': message}
+                message = get_template('school/send_email.html').render(context)
+                email = EmailMessage(subject, message,"SMS Code School", [str(i)])
+                email.content_subtype = "html" 
+                email.send()
+                return redirect('admin-view-allStudents')
+
+    students = Student.objects.filter(payment_status=False)
+    context = {
+        'students': students,
+    }
+    return render(request, 'school/adminview_studentdue4payment.html', context)
+
+def send_paymentconfirmationtostudent(request):
+    students = Student.objects.filter(payment_status=False)
+    for student in students:
+        full_name = student.fname + ' ' + student.lname
+        email_address = student.email
+    
+        message = 'Congratulations you have been paid'
+    
+        subject = 'Payment confirmation'
+        context = {'full_name': full_name,'message': message}
+        message = get_template('school/send_email.html').render(context)
+        email = EmailMessage(subject, message,"Payment confirmatation", [email_address])
+        email.content_subtype = "html" 
+        email.send()
+    
+    return redirect('admin-view-allStudents')
 
