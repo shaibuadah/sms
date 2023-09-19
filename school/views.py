@@ -11,7 +11,7 @@ from authentication.models import CustomUser
 from authentication.views import check_role_superuser, check_role_school, check_role_dept
 
 from .models import School, Department, Student
-from .forms import SchoolForm, SchoolInfoForm
+from .forms import SchoolForm, SchoolInfoForm, DeptForm, DeptInfoForm
 
 
 
@@ -223,7 +223,7 @@ def admin_view_studentsdue4payment(request):
         email_address = students.email
         if request.method == 'POST':
             student_id = request.POST.getlist('payment')
-            for i in student_id:            
+            for i in student_id:       
                 message = 'Congratulations you have been paid'
             
                 subject = 'Payment Confirmation'
@@ -245,6 +245,7 @@ def send_paymentconfirmationtostudent(request):
     for student in students:
         full_name = student.fname + ' ' + student.lname
         email_address = student.email
+        student_id = student.id
     
         message = 'Congratulations you have been paid'
     
@@ -254,6 +255,61 @@ def send_paymentconfirmationtostudent(request):
         email = EmailMessage(subject, message,"Payment confirmatation", [email_address])
         email.content_subtype = "html" 
         email.send()
+
+        Student.objects.filter(pk=int(student_id)).update(payment_status=True)
     
     return redirect('admin-view-allStudents')
 
+
+
+
+# ================== School functions ================ #
+@login_required(login_url='login')
+@user_passes_test(check_role_school)
+def school_addDept(request):
+    if request.method == 'POST':
+        # store the data and create the user
+        form = UserForm(request.POST)
+        department_form = DeptForm(request.POST)       
+        if form.is_valid() and department_form.is_valid():
+            name = form.cleaned_data['name']
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = CustomUser.objects.create_user(name = name,
+                                            username=username, 
+                                            email=email,
+                                            password=password)
+            user.is_HOD = True
+            user.save()
+
+            department = department_form.save(commit=False)
+            department.user = user
+            department.school = get_school(request)
+            department_name = department_form.cleaned_data['department_name']
+            department.slug = slugify(department_name)+'-'+str(user.id)
+            department.save()
+
+            messages.success(request, 'Department has been created sucessfully!')
+            return redirect('view_allDept')
+        else:
+            messages.error(request, 'Something went wrong')
+            print('invalid form')
+            print(form.errors)
+    else:
+        form = UserForm()
+        department_form = DeptForm()
+
+    context = {
+        'form': form,
+        'department_form': department_form,
+    }
+
+    return render(request, 'school/schoolAdmin_templates/school_addDept.html', context)
+
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_school)
+def schoolview_allDept(request):
+    return render(request, 'school/schoolAdmin_templates/schoolview_allDept.html')

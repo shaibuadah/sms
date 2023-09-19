@@ -18,6 +18,7 @@ class School(models.Model):
 
 
 class Department(models.Model):
+    user = models.OneToOneField(CustomUser, related_name='dept_user', on_delete=models.CASCADE)
     school = models.ForeignKey(School, on_delete=models.CASCADE)
     department_name = models.CharField(max_length=50)
     slug = models.SlugField(max_length=100, unique=True)
