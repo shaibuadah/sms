@@ -18,4 +18,8 @@ urlpatterns = [
     path('studentdue4payment/', views.admin_view_studentsdue4payment, name='adminview-studentdue4payment'),
     path('send_paymentconfirmation/', views.send_paymentconfirmationtostudent, name='send-paymentconfirmation'),
 
+    # ====== SCHOOL URLS ====== #
+    path('Add_Dept', views.school_addDept, name='addDept'),
+    path('view_allDept', views.schoolview_allDept, name='view_allDept'),
+
 ]
