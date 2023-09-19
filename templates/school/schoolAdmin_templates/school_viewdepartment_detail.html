@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="pagetitle">
+    <h1>DEPARTMENT DETAILS</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url "schoolDashboard" %}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Department Details</li>
+        </ol>
+    </nav>
+</div>
+<section class="section profile">
+    <div class="row">
+        <div class="col-xl-4">
+            <div class="card">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                <h2>{{department.department_name}}</h2>
+                <h3>{{department.user.email}}</h3>
+                <div class="social-links mt-2"> <a href="#" class="twitter"><i class="bi bi-twitter"></i></a> <a
+                        href="#" class="facebook"><i class="bi bi-facebook"></i></a> <a href="#" class="instagram"><i
+                        class="bi bi-instagram"></i></a> <a href="#" class="linkedin"><i
+                        class="bi bi-linkedin"></i></a></div>
+            </div>
+            </div>
+        </div>
+        <div class="col-xl-8">
+            <div class="card">
+            <div class="card-body pt-3">
+                <ul class="nav nav-tabs nav-tabs-bordered">
+                    <li class="nav-item">
+                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Student(s)</button>
+                    </li>
+                </ul>
+                <div class="tab-content pt-2">
+                    <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                        <h5 class="card-title">About</h5>
+                        <p class="small fst-italic">{% lorem 4 b random %}</h5>
+                        <div class="row">
+                        <div class="col-lg-3 col-md-4 label ">HOD Name</div>
+                        <div class="col-lg-9 col-md-8">{{department.user.name}}</div>
+                        </div>
+                        <div class="row">
+                        <div class="col-lg-3 col-md-4 label">Mobile</div>
+                        <div class="col-lg-9 col-md-8">{{department.user.mobile}}</div>
+                        </div>
+                        <div class="row">
+                        <div class="col-lg-3 col-md-4 label">Address</div>
+                        <div class="col-lg-9 col-md-8">{{department.user.address}}</div>
+                        </div>
+                        <div class="row">
+                        <div class="col-lg-3 col-md-4 label">Email</div>
+                        <div class="col-lg-9 col-md-8">{{department.user.email}}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane fade pt-3" id="profile-change-password">
+                        <h5 class="card-title">Student in this Department</h5>
+                        <table class="table datatable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Student Name</th>
+                                    <th scope="col">Student Email</th>
+                                    <th scope="col">Due for Payment</th>
+                                    <th scope="col">Payment Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in department_students %}
+                                    <tr>
+                                    <th scope="row">{{forloop.counter}}</th>
+                                    <td>{{student.fname}} {{student.lname}}</td>
+                                    <td>{{student.email}}</td>
+                                    <td>Yes</td>
+                                    <td>{% if student.payment_status == False %} Not Paid {% else %} Paid {% endif %}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+

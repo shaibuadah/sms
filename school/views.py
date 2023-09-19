@@ -23,6 +23,12 @@ def get_school(request):
     return school
 
 
+# Get Current Logedin School
+def get_department(request):
+    department = Department.objects.get(user=request.user)
+    return department
+
+
 # SCHOOL PROFILE
 @login_required(login_url='login')
 @user_passes_test(check_role_school)
@@ -135,6 +141,7 @@ def admin_view_AllSchools(request):
 
 # ========== Super-Admin View School Detail ========== #
 @login_required(login_url='login')
+@user_passes_test(check_role_superuser)
 def admin_viewschool_detail(request, school_slug):
     school = get_object_or_404(School, slug=school_slug)
     school_departments = Department.objects.filter(school=school).annotate(no_of_students=Count('student_department'))
@@ -155,6 +162,7 @@ def admin_viewschool_detail(request, school_slug):
 
 # ========== Super-Admin Delete School ========== #
 @login_required(login_url='login')
+@user_passes_test(check_role_superuser)
 def admin_School_Delete(request, school_slug):
     school = get_object_or_404(School, slug=school_slug)
     user = CustomUser.objects.get(email = school.user)
@@ -264,6 +272,21 @@ def send_paymentconfirmationtostudent(request):
 
 
 # ================== School functions ================ #
+
+@login_required(login_url='login')
+@user_passes_test(check_role_school)
+def schoolDashboard(request):
+    departments_count = Department.objects.filter(school = get_school(request)).count()
+    students_count = Student.objects.filter(school=get_school(request)).count()
+
+    context = {
+        'departments_count': departments_count,
+        'students_count': students_count,
+    }
+    return render(request, 'school/schoolAdmin_templates/schoolDashboard.html', context)
+
+
+
 @login_required(login_url='login')
 @user_passes_test(check_role_school)
 def school_addDept(request):
@@ -312,4 +335,56 @@ def school_addDept(request):
 @login_required(login_url='login')
 @user_passes_test(check_role_school)
 def schoolview_allDept(request):
-    return render(request, 'school/schoolAdmin_templates/schoolview_allDept.html')
+    departments = Department.objects.filter(school = get_school(request))
+    context = {
+        'departments': departments,
+    }
+    return render(request, 'school/schoolAdmin_templates/schoolview_allDept.html', context)
+
+
+
+# ========== SSCHOOL VIEW DEPARTMENT Detail ========== #
+@login_required(login_url='login')
+@user_passes_test(check_role_school)
+def school_viewsdepartment_detail(request, dept_slug):
+    department = get_object_or_404(Department, slug=dept_slug)
+    department_students = Student.objects.filter(department=department)
+
+    context = {
+        'department': department,
+        'department_students': department_students,
+    }
+
+    return render(request, 'school/schoolAdmin_templates/school_viewdepartment_detail.html', context)
+
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_school)
+def SchoolDelete_department(request, dept_slug):
+    department = get_object_or_404(Department, slug=dept_slug)
+    user = CustomUser.objects.get(email = department.user)
+    department.delete()
+    user.delete()
+    messages.success(request, 'Department has been Deleted successfully')
+    return redirect('view_allDept')
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_school)
+def schoolview_allStudent(request):
+    students = Department.objects.filter(school = get_school(request))
+    context = {
+        'students': students,
+    }
+    return render(request, 'school/schoolAdmin_templates/schoolview_allStudents.html', context)
+
+
+
+
+
+
+
+
+
+
