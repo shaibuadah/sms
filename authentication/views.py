@@ -178,10 +178,6 @@ def adminProfile(request):
 
 
 
-@login_required(login_url='login')
-@user_passes_test(check_role_school)
-def schoolDashboard(request):
-    return render(request, 'authentication/schoolDashboard.html')
 
 
 

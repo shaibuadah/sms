@@ -14,24 +14,24 @@
     <div class="row">
         <div class="col-lg-8">
             <div class="row">
-            <a href="{% url "admin-view-AllSchools" %}" class="col-xxl-4 col-md-6">
+            <a href="{% url "view_allDept" %}" class="col-xxl-4 col-md-6">
                 <div class="card info-card sales-card">
                     <div class="filter">
                         
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">Schools <span>| All Schools</span></h5>
+                        <h5 class="card-title">Department <span>| All Departments</span></h5>
                         <div class="d-flex align-items-center">
                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center"> <i
                                 class="bi bi-house-door-fill"></i></div>
                         <div class="ps-3">
-                            <h6>{{schoolcount}}</h6>
+                            <h6>{{departments_count}}</h6>
                         </div>
                         </div>
                     </div>
                 </div>
             </a>
-            <a href="#" class="col-xxl-4 col-xl-6">
+            <a href="{% url "school-view-allStudents" %}" class="col-xxl-4 col-xl-6">
                 <div class="card info-card customers-card">
                     <div class="filter"></div>
                     <div class="card-body">
@@ -40,7 +40,7 @@
                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center"> <i
                                 class="bi bi-people"></i></div>
                         <div class="ps-3">
-                            <h6>{{allstudent}}</h6>
+                            <h6>{{students_count}}</h6>
                         </div>
                         </div>
                     </div>

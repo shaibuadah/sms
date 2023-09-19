@@ -6,7 +6,7 @@ urlpatterns = [
     path('profile/', views.schoolProfile, name='schoolProfile'),
 
     path('admin_addSchool/', views.admin_addSchool, name='admin-AddSchool'),
-    path('allSchools/', views.admin_view_AllSchools, name='admin-view-AllSchools'),
+    path('admin/allSchools/', views.admin_view_AllSchools, name='admin-view-AllSchools'),
     path('school/<slug:school_slug>/', views.admin_viewschool_detail, name='admin_viewschool_detail'),
     path('approveSchools/', views.admin_Approve_AllSchools, name='admin-approve-Schools'),
     path('school/departments/<int:pk>/', views.admin_view_department, name='admin_view_department'),
@@ -21,5 +21,8 @@ urlpatterns = [
     # ====== SCHOOL URLS ====== #
     path('Add_Dept', views.school_addDept, name='addDept'),
     path('view_allDept', views.schoolview_allDept, name='view_allDept'),
+    path('<slug:dept_slug>', views.school_viewsdepartment_detail, name='view-Deptdetails'),
+    path('delete/<slug:dept_slug>/', views.SchoolDelete_department, name='school-delete-department'),
+    path('allStudents/', views.schoolview_allStudent, name='school-view-allStudents'),
 
 ]
