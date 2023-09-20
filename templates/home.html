@@ -10,7 +10,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <meta name="keywords" content="">
-  <title>LearnPLUS | Learning Management System</title>
+  <title>SPAS | Student Payment System</title>
   <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon" />
 
     <link rel="stylesheet" type="text/css" href="{% static 'settings.css' %}" media="screen" />
@@ -44,7 +44,7 @@
               <li class="dropdown">
                 <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-lock"></i> Login</a>
                 <div class="dropdown-menu">
-                  <form method="post" {% url "login" %}>
+                  <form method="post" {% url 'login' %}>
                     {% csrf_token %}
                     <div class="form-title">
                       <h4>Login Area</h4>
@@ -116,8 +116,8 @@
               <div class="tp-caption slider_layer_02 text-center lft tp-resizeme" data-x="center" data-y="460"
                 data-speed="1000" data-start="800" data-easing="Power3.easeInOut" data-splitin="none"
                 data-splitout="none" data-elementdelay="0.1" data-endelementdelay="0.1" data-endspeed="1000"
-                style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">Great Theme For Education,
-                University Learning Websites<br> with tons of options and custom sections!
+                style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">Hard work is not punishment, it is the price of,
+                admission for the<br> opportunity to reach sustained excellence!
               </div>
               
             </li>
@@ -130,16 +130,7 @@
     <section class="copyright">
       <div class="container">
         <div class="row">
-          <div class="col-md-6 text-left">
-            <p><a target="_blank" href="https://www.templateshub.net">Templates Hub</a></p>
-          </div>
-          <div class="col-md-6 text-right">
-            <ul class="list-inline">
-              <li><a href="#">Terms of Usage</a></li>
-              <li><a href="#">Privacy Policy</a></li>
-              <li><a href="#">Sitemap</a></li>
-            </ul>
-          </div>
+   
         </div>
       </div>
     </section>
