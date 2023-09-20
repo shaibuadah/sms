@@ -31,9 +31,11 @@
                   {% elif request.user.role == 1 %}
                   <li> <a class="dropdown-item d-flex align-items-center" href="{% url "schoolProfile" %}"> <i class="bi bi-person"></i> <span>My Profile</span> </a></li>
                   {% else %}
-                  <li> <a class="dropdown-item d-flex align-items-center" href=""> <i class="bi bi-person"></i> <span>My Profile</span> </a></li>
+                  <li> <a class="dropdown-item d-flex align-items-center" href="{% url "departmentProfile" %}"> <i class="bi bi-person"></i> <span>My Profile</span> </a></li>
+                  
                   {% endif %}
-                
+
+               <li> <a class="dropdown-item d-flex align-items-center" href="{% url "change-password" %}"> <i class="bi bi-person"></i> <span>Change Password</span> </a></li>
                 <li>
                    <hr class="dropdown-divider">
                 </li>
