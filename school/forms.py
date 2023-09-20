@@ -1,5 +1,5 @@
 from django import forms
-from .models import School, Department
+from .models import School, Department, Student
 from authentication.models import CustomUser
 
 class SchoolForm(forms.ModelForm):
@@ -21,3 +21,9 @@ class DeptForm(forms.ModelForm):
 class DeptInfoForm(forms.ModelForm):
     model = CustomUser
     fields = ['username', 'email', 'mobile']
+
+
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = ['matric_no', 'fname', 'lname', 'bank_name', 'account_number', 'mobile', 'email', 'payment_status']

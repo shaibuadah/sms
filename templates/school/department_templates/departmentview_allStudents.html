@@ -26,6 +26,7 @@
                          <th scope="col">Email</th>
                          <th scope="col">Department</th>
                          <th scope="col">Payment Status</th>
+                         <th scope="col">Actions</th>
                       </tr>
                    </thead>
                    <tbody>
@@ -43,7 +44,32 @@
                               {% endif %}
                               
                            </td>
+                           <td>
+                            <a href="{% url "deptview-studentdetails" student.id %}" class="btn btn-success"><i class="bi bi-eye-fill"></i></a>
+                            <a href="{% url "dept-editstudent" student.id %}" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteSchoolModel{{student.id}}"><i class="bi bi-trash"></i></button>
+                         </td>
                       </tr>
+
+                      <div class="modal fade" id="DeleteSchoolModel{{student.id}}" tabindex="-1" data-bs-backdrop="false">
+                        <div class="modal-dialog">
+                           <div class="modal-content">
+                              <div class="modal-header">
+                                 <h5 class="modal-title">Confirm Delete</h5>
+                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body"> 
+                                 <h2>Are you Sure?</h2>
+                                    <h5>You want to Delete <strong>{{student.fname}} {{student.lname}}</strong></h5>
+                              </div>
+                              <div class="modal-footer">
+                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                 <a href="{% url "department-delete-student" student.id %}" class="btn btn-danger">Yes Delete</a>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
                      {% endfor %}
                    </tbody>
                 </table>

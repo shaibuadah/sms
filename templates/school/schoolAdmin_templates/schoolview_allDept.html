@@ -3,11 +3,11 @@
 {% block content %}
 
 <div class="pagetitle">
-   <h1>SCHOOLS</h1>
+   <h1>Department</h1>
    <nav>
        <ol class="breadcrumb">
            <li class="breadcrumb-item"><a href="{% url "adminDashboard" %}">Home</a></li>
-           <li class="breadcrumb-item active">All school</li>
+           <li class="breadcrumb-item active">All Department</li>
        </ol>
    </nav>
 </div>
@@ -17,14 +17,14 @@
        <div class="col-lg-12">
           <div class="card">
              <div class="card-body">
-                <h5 class="card-title">All School(s)</h5>
+                <h5 class="card-title">All Department(s)</h5>
                 <table class="table datatable">
                    <thead>
                       <tr>
                          <th scope="col">#</th>
-                         <th scope="col">School Name</th>
+                         <th scope="col">Department Name</th>
+                         <th scope="col">HOD Name</th>
                          <th scope="col">Email</th>
-                         <th scope="col">No of Dept</th>
                          <th scope="col">No Students</th>
                          <th scope="col">Actions</th>
                       </tr>
@@ -34,12 +34,12 @@
                         <tr>
                            <th scope="row">{{forloop.counter}}</th>
                            <td>{{department.department_name}}</td>
-                           <td>{{school.user.email}}</td>
-                           <td><a href="#">{{school.no_of_department}}</a></td>
-                           <td><a href="#">{{school.no_of_students}}</a></td>
+                           <td>{{department.user.name}}</td>
+                           <td>{{department.user.email}}</td>
+                           <td>{{department.no_of_students}}</td>
                            <td>
                               <a href="{% url "view-Deptdetails" department.slug %}" class="btn btn-success"><i class="bi bi-eye-fill"></i></a>
-                              <a href="#" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
+                              <a href="{% url "edit_department" department.pk %}" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
                               <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteSchoolModel{{department.slug}}"><i class="bi bi-trash"></i></button>
                            </td>
                       </tr>
