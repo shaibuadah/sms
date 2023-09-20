@@ -1,5 +1,6 @@
 from django.urls import path, include
 from . import views
+from school.views import schoolDashboard, deptDashboard
 
 
 urlpatterns = [
@@ -12,8 +13,8 @@ urlpatterns = [
     path('adminProfile/', views.adminProfile, name='adminProfile'),
 
     path('adminDashboard/', views.adminDashboard, name='adminDashboard'),
-    path('schoolDashboard/', views.schoolDashboard, name='schoolDashboard'),
-    path('deptDashboard/', views.deptDashboard, name='deptDashboard'),
+    path('schoolDashboard/', schoolDashboard, name='schoolDashboard'),
+    path('deptDashboard/', deptDashboard, name='deptDashboard'),
 
     path('school/', include('school.urls')),
 ]

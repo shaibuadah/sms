@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="pagetitle">
+    <h1>Add Student
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">Add Student</li>
+        </ol>
+    </nav>
+</div>
+<section class="section">
+    <div class="row">
+        <div class="col-lg-10">
+            <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Add Student Form</h5>
+                <form class="row g-3" method="post" autocomplete="off" novalidate>
+                    {% csrf_token %}
+                    <div class="col-md-12">
+                        <label for="inputName5" class="form-label">Matric Number</label>
+                        {% render_field student_form.matric_no class="form-control" id="matric_no"%}
+                    </div>
+                    <div class="col-md-12">
+                        <label for="inputName5" class="form-label">First Name</label>
+                        {% render_field student_form.fname class="form-control" id="fname"%}
+                    </div>
+                    <div class="col-md-12">
+                        <label for="inputEmail5" class="form-label">Last Name</label>
+                        {% render_field student_form.lname class="form-control" id="lname"%}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputEmail5" class="form-label">Email</label>
+                        {% render_field student_form.email class="form-control" id="email"%}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputEmail5" class="form-label">Mobile</label>
+                        {% render_field student_form.mobile class="form-control" id="mobile"%}
+                    </div>
+                    <div class="col-12">
+                        <label for="inputAddress5" class="form-label">Account Number</label>
+                        {% render_field student_form.account_number class="form-control" id="account_number" rows="3" placeholder="1234 Main St"%}
+                    </div>
+                    <div class="col-12">
+                        <label for="inputAddress5" class="form-label">Bank Name</label>
+                        {% render_field student_form.bank_name class="form-control" id="bank_name" rows="3" placeholder="1234 Main St"%}
+                    </div>
+
+                    <div class="col-12">
+                        <label for="inputAddress5" class="form-label">Payment Status</label>
+                        {% render_field student_form.payment_status class="form-control" id="payment_status" rows="3" placeholder="1234 Main St"%}
+                    </div>
+                    
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

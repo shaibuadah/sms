@@ -176,18 +176,3 @@ def adminProfile(request):
     }
     return render(request, 'authentication/adminProfile.html', context)
 
-
-
-@login_required(login_url='login')
-@user_passes_test(check_role_school)
-def schoolDashboard(request):
-    return render(request, 'authentication/schoolDashboard.html')
-
-
-
-@login_required(login_url='login')
-@user_passes_test(check_role_dept)
-def deptDashboard(request):
-    return render(request, 'authentication/deptDashboard.html')
-
-

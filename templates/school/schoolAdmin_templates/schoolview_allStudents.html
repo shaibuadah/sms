@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="pagetitle">
+   <h1>All Students</h1>
+   <nav>
+       <ol class="breadcrumb">
+           <li class="breadcrumb-item"><a href="{% url 'adminDashboard' %}">Home</a></li>
+           <li class="breadcrumb-item active">All Students</li>
+       </ol>
+   </nav>
+</div>
+
+<section class="section">
+    <div class="row">
+       <div class="col-lg-12">
+          <div class="card">
+             <div class="card-body">
+                <h5 class="card-title">All Student(s)</h5>
+                <table class="table datatable">
+                   <thead>
+                      <tr>
+                         <th scope="col">#</th>
+                         <th scope="col">Student Name</th>
+                         <th scope="col">Email</th>
+                         <th scope="col">Department</th>
+                         <th scope="col">Payment Status</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                     {% for student in students %}
+                        <tr>
+                           <th scope="row">{{forloop.counter}}</th>
+                           <td>{{student.fname}} {{student.lname}}</td>
+                           <td>{{student.email}}</td>
+                           <td>{{student.department.department_name}}</td>
+                           <td>
+                              {% if student.payment_status == False %}
+                                 Not Paid
+                              {% else %}
+                                 Paid
+                              {% endif %}
+                              
+                           </td>
+                      </tr>
+                     {% endfor %}
+                   </tbody>
+                </table>
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>
+
+ {% endblock %}

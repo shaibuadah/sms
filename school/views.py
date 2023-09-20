@@ -11,7 +11,7 @@ from authentication.models import CustomUser
 from authentication.views import check_role_superuser, check_role_school, check_role_dept
 
 from .models import School, Department, Student
-from .forms import SchoolForm, SchoolInfoForm
+from .forms import SchoolForm, SchoolInfoForm, DeptForm, DeptInfoForm, StudentForm
 
 
 
@@ -21,6 +21,13 @@ from .forms import SchoolForm, SchoolInfoForm
 def get_school(request):
     school = School.objects.get(user=request.user)
     return school
+
+
+def get_department(request):
+    department = Department.objects.get(user=request.user)
+    return department
+
+
 
 
 # SCHOOL PROFILE
@@ -135,6 +142,7 @@ def admin_view_AllSchools(request):
 
 # ========== Super-Admin View School Detail ========== #
 @login_required(login_url='login')
+@user_passes_test(check_role_superuser)
 def admin_viewschool_detail(request, school_slug):
     school = get_object_or_404(School, slug=school_slug)
     school_departments = Department.objects.filter(school=school).annotate(no_of_students=Count('student_department'))
@@ -155,6 +163,7 @@ def admin_viewschool_detail(request, school_slug):
 
 # ========== Super-Admin Delete School ========== #
 @login_required(login_url='login')
+@user_passes_test(check_role_superuser)
 def admin_School_Delete(request, school_slug):
     school = get_object_or_404(School, slug=school_slug)
     user = CustomUser.objects.get(email = school.user)
@@ -223,7 +232,7 @@ def admin_view_studentsdue4payment(request):
         email_address = students.email
         if request.method == 'POST':
             student_id = request.POST.getlist('payment')
-            for i in student_id:            
+            for i in student_id:       
                 message = 'Congratulations you have been paid'
             
                 subject = 'Payment Confirmation'
@@ -240,11 +249,16 @@ def admin_view_studentsdue4payment(request):
     }
     return render(request, 'school/adminview_studentdue4payment.html', context)
 
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_superuser)
 def send_paymentconfirmationtostudent(request):
     students = Student.objects.filter(payment_status=False)
     for student in students:
         full_name = student.fname + ' ' + student.lname
         email_address = student.email
+        student_id = student.id
     
         message = 'Congratulations you have been paid'
     
@@ -254,6 +268,282 @@ def send_paymentconfirmationtostudent(request):
         email = EmailMessage(subject, message,"Payment confirmatation", [email_address])
         email.content_subtype = "html" 
         email.send()
+
+        Student.objects.filter(pk=int(student_id)).update(payment_status=True)
     
     return redirect('admin-view-allStudents')
+
+
+
+
+# ================== School functions ================ #
+
+@login_required(login_url='login')
+@user_passes_test(check_role_school)
+def schoolDashboard(request):
+    school = get_school(request)
+    departments_count = Department.objects.filter(school = get_school(request)).count()
+    students_count = Student.objects.filter(school=get_school(request)).count()
+
+    context = {
+        'school': school,
+        'departments_count': departments_count,
+        'students_count': students_count,
+    }
+    return render(request, 'school/schoolAdmin_templates/schoolDashboard.html', context)
+
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_school)
+def school_addDept(request):
+    if request.method == 'POST':
+        # store the data and create the user
+        form = UserForm(request.POST)
+        department_form = DeptForm(request.POST)       
+        if form.is_valid() and department_form.is_valid():
+            name = form.cleaned_data['name']
+            mobile = form.cleaned_data['mobile']
+            address = form.cleaned_data['address']
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = CustomUser.objects.create_user(name = name,
+                                            username=username, 
+                                            email=email,
+                                            mobile=mobile, 
+                                            address=address,
+                                            password=password)
+            user.is_HOD = True
+            user.save()
+
+            department = department_form.save(commit=False)
+            department.user = user
+            department.school = get_school(request)
+            department_name = department_form.cleaned_data['department_name']
+            department.slug = slugify(department_name)+'-'+str(user.id)
+            department.save()
+
+            messages.success(request, 'Department has been created sucessfully!')
+            return redirect('view_allDept')
+        else:
+            messages.error(request, 'Something went wrong')
+            print('invalid form')
+            print(form.errors)
+    else:
+        form = UserForm()
+        department_form = DeptForm()
+
+    context = {
+        'form': form,
+        'department_form': department_form,
+    }
+
+    return render(request, 'school/schoolAdmin_templates/school_addDept.html', context)
+
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_school)
+def schoolview_allDept(request):
+    departments = Department.objects.filter(school = get_school(request)).annotate(no_of_students=Count('student_department'))
+    context = {
+        'departments': departments,
+    }
+    return render(request, 'school/schoolAdmin_templates/schoolview_allDept.html', context)
+
+
+
+# ========== SCHOOL VIEW DEPARTMENT Detail ========== #
+@login_required(login_url='login')
+@user_passes_test(check_role_school)
+def school_viewsdepartment_detail(request, dept_slug):
+    department = get_object_or_404(Department, slug=dept_slug)
+    department_students = Student.objects.filter(department=department)
+
+    context = {
+        'department': department,
+        'department_students': department_students,
+    }
+
+    return render(request, 'school/schoolAdmin_templates/school_viewdepartment_detail.html', context)
+
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_school)
+def SchoolDelete_department(request, dept_slug):
+    department = get_object_or_404(Department, slug=dept_slug)
+    user = CustomUser.objects.get(email = department.user)
+    department.delete()
+    user.delete()
+    messages.success(request, 'Department has been Deleted successfully')
+    return redirect('view_allDept')
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_school)
+def schoolview_allStudent(request):
+    students = Student.objects.filter(school = get_school(request))
+    context = {
+        'students': students,
+    }
+    return render(request, 'school/schoolAdmin_templates/schoolview_allStudents.html', context)
+
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_school)
+def edit_Department(request, pk=None):
+    department = get_object_or_404(Department, pk=pk)
+    user = CustomUser.objects.get(email = department.user)
+    if request.method == 'POST':
+        form = UserInfoForm(request.POST,  instance=user)
+        department_form = DeptForm(request.POST,  instance=department)
+        if form.is_valid() and department_form.is_valid():
+            name = form.cleaned_data['name']
+            mobile = form.cleaned_data['mobile']
+            address = form.cleaned_data['address']
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+
+            form.save()
+
+            department = department_form.save(commit=False)
+            department.school = get_school(request)
+            department_name = department_form.cleaned_data['department_name']
+            department.slug = slugify(department_name)
+
+            department.save()
+            messages.success(request, 'Department updated successfully!')
+            return redirect('view_allDept')
+        else:
+            print(form.errors)
+
+    else:
+        form = UserInfoForm(instance=user)
+        department_form = DeptForm(instance=department)
+    context = {
+        'form': form,
+        'department_form': department_form,
+    }
+    return render(request, 'school/schoolAdmin_templates/schooledit_department.html', context)
+
+
+# ======================== DEPARTMENT OD FUNCTIONS ======================== #
+@login_required(login_url='login')
+@user_passes_test(check_role_dept)
+def deptDashboard(request):
+    department = get_department(request)
+    students = Student.objects.filter(department = department).order_by('-created_at')[:5]
+    context = {
+        'department': department,
+        'students': students,
+    }
+    return render(request, 'authentication/deptDashboard.html', context)
+
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_dept)
+def dept_addstudent(request):
+    department = get_department(request)
+    school = Department.objects.filter(school = department.school)
+
+    student_form = StudentForm(request.POST)
+    if student_form.is_valid():
+        fname = student_form.cleaned_data['fname']
+        lname = student_form.cleaned_data['lname']
+        matric_no = student_form.cleaned_data['matric_no']
+        account_number = student_form.cleaned_data['account_number']
+        bank_name = student_form.cleaned_data['bank_name']
+        mobile = student_form.cleaned_data['mobile']
+        email = student_form.cleaned_data['email']
+
+        student = student_form.save(commit=False)
+        student.school = department.school
+        student.department = department
+        student.save()
+
+        messages.success(request, 'Student Added successfully!')
+        return redirect('departmentview-allStudents')
+    else:
+        student_form = StudentForm()
+ 
+    context = {
+        'department': department,
+        'student_form': student_form,
+    }
+    return render(request, 'school/department_templates/dept_addstudent.html', context)
+
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_dept)
+def deptview_allstudents(request):
+    students = Student.objects.filter(department = get_department(request))
+    context = {
+        'students': students,
+    }
+    return render(request, 'school/department_templates/departmentview_allStudents.html', context)
+
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_dept)
+def deptview_studentdetail(request, pk=None):
+    student = get_object_or_404(Student, pk=pk)
+
+    context = {
+        'student': student,
+    }
+
+    return render(request, 'school/department_templates/deptview_studentdetail.html', context)
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_dept)
+def deptDelete_student(request, pk=None):
+    student = get_object_or_404(Student, pk=pk)
+    student.delete()
+    messages.success(request, 'Student has been Deleted successfully')
+    return redirect('departmentview-allStudents')
+
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_dept)
+def deptedit_student(request, pk=None):
+    student = get_object_or_404(Student, pk=pk)
+    department = get_department(request)
+    if request.method == 'POST':
+        student_form = StudentForm(request.POST,  instance=student)
+        if student_form.is_valid():
+            fname = student_form.cleaned_data['fname']
+            lname = student_form.cleaned_data['lname']
+            matric_no = student_form.cleaned_data['matric_no']
+            account_number = student_form.cleaned_data['account_number']
+            bank_name = student_form.cleaned_data['bank_name']
+            mobile = student_form.cleaned_data['mobile']
+            email = student_form.cleaned_data['email']
+
+            student = student_form.save(commit=False)
+            student.school = department.school
+            student.department = department
+            student.save()
+            
+            messages.success(request, 'Student updated successfully!')
+            return redirect('departmentview-allStudents')
+        else:
+            print(student_form.errors)
+
+    else:
+        student_form = StudentForm(instance=student)
+    context = {
+        'student_form': student_form,
+    }
+    return render(request, 'school/department_templates/deptedit_student.html', context)
+
+
+
 
