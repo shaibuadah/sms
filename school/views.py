@@ -5,6 +5,9 @@ from django.db.models import Count
 from django.template.defaultfilters import slugify
 from django.core.mail import send_mail, EmailMessage
 from django.template.loader import get_template
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse_lazy
 
 from authentication.forms import UserForm, UserInfoForm
 from authentication.models import CustomUser
@@ -429,6 +432,11 @@ def edit_Department(request, pk=None):
     }
     return render(request, 'school/schoolAdmin_templates/schooledit_department.html', context)
 
+# class SchoolChangePasswordView(SuccessMessageMixin, PasswordChangeView):
+#     template_name = 'school/school_templates/school_changePassword.html'
+#     success_message = "Successfully Changed Your Password"
+#     success_url = reverse_lazy('departmentProfile')
+
 
 # ======================== DEPARTMENT OD FUNCTIONS ======================== #
 @login_required(login_url='login')
@@ -436,11 +444,51 @@ def edit_Department(request, pk=None):
 def deptDashboard(request):
     department = get_department(request)
     students = Student.objects.filter(department = department).order_by('-created_at')[:5]
+    students_count = Student.objects.filter(department=get_department(request)).count()
+
+    
     context = {
         'department': department,
         'students': students,
+        'students_count': students_count,
     }
-    return render(request, 'authentication/deptDashboard.html', context)
+    return render(request, 'school/department_templates/deptDashboard.html', context)
+
+
+
+# DEPARTMENT PROFILE
+@login_required(login_url='login')
+@user_passes_test(check_role_dept)
+def departmentProfile(request):
+    profile = request.user
+    department = get_object_or_404(Department, user=request.user)
+
+    if request.method == 'POST':
+        form = UserInfoForm(request.POST, instance=profile)
+        department_form = DeptForm(request.POST, instance=department)
+        if form.is_valid() and department_form.is_valid():
+            obj = form.save(commit=False)
+            obj.name = request.POST['department_name']
+            obj.save()
+            department_form.save()
+            messages.success(request, 'Department info updated successfully.')
+            return redirect('departmentProfile')
+        else:
+            messages.error(request, 'Something Went Wrong.')
+            print(form.errors)
+            print(department_form.errors)
+    else:
+        form = UserInfoForm(instance = profile)
+        department_form = DeptForm(instance=department)
+
+    context = {
+        'form': form,
+        'department_form': department_form,
+        'profile': profile,
+        'department': department,
+    }
+    return render(request, 'school/department_templates/deptProfile.html', context)
+
 
 
 
@@ -543,6 +591,8 @@ def deptedit_student(request, pk=None):
         'student_form': student_form,
     }
     return render(request, 'school/department_templates/deptedit_student.html', context)
+
+
 
 
 
