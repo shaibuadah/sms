@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-x*562xu4ym*9yr5ty2y$g&vla&%1_rp(q1g9_$el$ddpv3982m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok.io', '53ef-41-242-57-81.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ['https://53ef-41-242-57-81.ngrok-free.app']
 
 
 # Application definition
@@ -78,6 +79,17 @@ WSGI_APPLICATION = 'sms_main.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+
+# ########### MYSQL DATABASE ###########.py
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.mysql",
+#         "NAME":"spas",
+#         "HOST":'localhost',
+#         "PORT": '3306',
+#     }
+# }
+
 
 DATABASES = {
     'default': {

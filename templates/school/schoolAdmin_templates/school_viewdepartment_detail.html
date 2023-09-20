@@ -38,20 +38,22 @@
                 </ul>
                 <div class="tab-content pt-2">
                     <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                        <h5 class="card-title">About</h5>
-                        <p class="small fst-italic">{% lorem 4 b random %}</h5>
                         <div class="row">
                         <div class="col-lg-3 col-md-4 label ">HOD Name</div>
                         <div class="col-lg-9 col-md-8">{{department.user.name}}</div>
                         </div>
                         <div class="row">
-                        <div class="col-lg-3 col-md-4 label">Mobile</div>
-                        <div class="col-lg-9 col-md-8">{{department.user.mobile}}</div>
+                            <div class="col-lg-3 col-md-4 label ">Department Name</div>
+                            <div class="col-lg-9 col-md-8">{{department.department_name}}</div>
                         </div>
                         <div class="row">
-                        <div class="col-lg-3 col-md-4 label">Address</div>
-                        <div class="col-lg-9 col-md-8">{{department.user.address}}</div>
+                            <div class="col-lg-3 col-md-4 label ">Department Code</div>
+                            <div class="col-lg-9 col-md-8">{{department.department_code}}</div>
                         </div>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-4 label">Username</div>
+                            <div class="col-lg-9 col-md-8">{{department.user.username}}</div>
+                            </div>
                         <div class="row">
                         <div class="col-lg-3 col-md-4 label">Email</div>
                         <div class="col-lg-9 col-md-8">{{department.user.email}}</div>

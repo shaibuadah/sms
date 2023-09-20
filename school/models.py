@@ -7,8 +7,8 @@ from authentication.models import CustomUser
 class School(models.Model):
     user = models.OneToOneField(CustomUser, related_name='user', on_delete=models.CASCADE)
     school_name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100, unique=True)
-    is_approved = models.BooleanField(default=False)
+    Address = models.TextField()
+    mobile = models.CharField(max_length=15)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
@@ -21,8 +21,7 @@ class Department(models.Model):
     user = models.OneToOneField(CustomUser, related_name='dept_user', on_delete=models.CASCADE)
     school = models.ForeignKey(School, on_delete=models.CASCADE)
     department_name = models.CharField(max_length=50)
-    slug = models.SlugField(max_length=100, unique=True)
-    description = models.TextField(max_length=250, blank=True)
+    department_code = models.CharField(max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

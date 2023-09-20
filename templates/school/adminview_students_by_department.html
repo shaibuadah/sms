@@ -26,23 +26,16 @@
                          <th scope="col">Email</th>
                          <th scope="col">School</th>
                          <th scope="col">Department</th>
-                         <th scope="col">Actions</th>
                       </tr>
                    </thead>
                    <tbody>
                      {% for student in students %}
                         <tr>
                            <th scope="row">{{forloop.counter}}</th>
-                           <td>{{student.student_name}}</td>
-                           <td>student@email.com</td>
+                           <td>{{student.fname}} {{student.lname}}</td>
+                           <td>{{student.email}}</td>
                            <td>{{student.school.school_name}}</td>
                            <td>{{student.department}}</td>
-                           <td>
-                              <a href="#"><i class="text-danger bi bi-trash"></a>
-                              <a href="#"><i class="text-success bi bi-pencil-square"></a>
-                              <a href="#"><i class="text-danger bi bi-trash"></a>
-                              
-                           </td>
                       </tr>
                      {% endfor %}
                    </tbody>

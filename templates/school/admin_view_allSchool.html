@@ -38,8 +38,8 @@
                            <td><a href="{% url 'admin_view_department' school.id %}">{{school.no_of_department}}</a></td>
                            <td><a href="{% url 'admin_students_by_school' school.id %}">{{school.no_of_students}}</a></td>
                            <td>
-                              <a href="{% url "admin_viewschool_detail" school.slug %}" class="btn btn-success"><i class="bi bi-eye-fill"></i></a>
-                              <a href="#" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
+                              <a href="{% url "admin_viewschool_detail" school.id %}" class="btn btn-success"><i class="bi bi-eye-fill"></i></a>
+                              <a href="{% url "edit_school" school.id %}" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
                               <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteSchoolModel{{school.slug}}"><i class="bi bi-trash"></i></button>
                            </td>
                       </tr>
@@ -58,7 +58,7 @@
                                  </div>
                                  <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <a href="{% url "admin-school-delete" school.slug %}" class="btn btn-danger">Yes Delete</a>
+                                    <a href="{% url "admin-school-delete" school.id %}" class="btn btn-danger">Yes Delete</a>
                                  </div>
                               </div>
                            </div>

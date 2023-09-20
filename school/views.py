@@ -89,9 +89,8 @@ def admin_addSchool(request):
 
             school = school_form.save(commit=False)
             school.user = user
-            school.is_approved = True
             school_name = school_form.cleaned_data['school_name']
-            school.slug = slugify(school_name)+'-'+str(user.id)
+            mobile = school_form.cleaned_data['mobile']
             school.save()
 
             messages.success(request, 'Account has been registered sucessfully!')
@@ -112,24 +111,6 @@ def admin_addSchool(request):
     return render(request, 'school/admin_addSchool.html', context)
 
 
-# ========== Super-Admin approve Schools ========== #
-@login_required(login_url='login')
-@user_passes_test(check_role_superuser)
-def admin_Approve_AllSchools(request):
-    allSchools = School.objects.filter(is_approved=False)
-    if request.method == 'POST':
-        school_id = request.POST.getlist('approve')
-        for i in school_id:
-            School.objects.filter(pk=int(i)).update(is_approved=True)
-        messages.success(request, 'School(s) Account has been Approved sucessfully!')
-        return redirect('admin-view-AllSchools')
-
-    context = {
-        'allSchools': allSchools,
-    }
-    return render(request,'school/admin_Approve_Schools.html', context=context)
-
-
 
 # ========== Super-Admin View all Schools ========== #
 @login_required(login_url='login')
@@ -146,8 +127,8 @@ def admin_view_AllSchools(request):
 # ========== Super-Admin View School Detail ========== #
 @login_required(login_url='login')
 @user_passes_test(check_role_superuser)
-def admin_viewschool_detail(request, school_slug):
-    school = get_object_or_404(School, slug=school_slug)
+def admin_viewschool_detail(request, id):
+    school = get_object_or_404(School, id=id)
     school_departments = Department.objects.filter(school=school).annotate(no_of_students=Count('student_department'))
 
     departments_count = Department.objects.filter(school=school).count()
@@ -164,11 +145,49 @@ def admin_viewschool_detail(request, school_slug):
     return render(request, 'school/admin_viewschool_detail.html', context)
 
 
+
+@login_required(login_url='login')
+@user_passes_test(check_role_superuser)
+def admin_edit_school(request, pk=None):
+    school = get_object_or_404(School, pk=pk)
+    user = CustomUser.objects.get(email = school.user)
+    if request.method == 'POST':
+        form = UserInfoForm(request.POST,  instance=user)
+        school_form = SchoolForm(request.POST,  instance=school)
+        if form.is_valid() and school_form.is_valid():
+            name = form.cleaned_data['name']
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+
+            form.save()
+
+            school_obj = school_form.save(commit=False)
+            school_obj.user = user
+            school_name = school_form.cleaned_data['school_name']
+            Address = school_form.cleaned_data['Address']
+            mobile = school_form.cleaned_data['mobile']
+
+            school_obj.save()
+            messages.success(request, 'School updated successfully!')
+            return redirect('admin-view-AllSchools')
+        else:
+            messages.error(request, 'Something went Wrong!')
+            print(form.errors)
+
+    else:
+        form = UserInfoForm(instance=user)
+        school_form = SchoolForm(instance=school)
+    context = {
+        'form': form,
+        'school_form': school_form,
+    }
+    return render(request, 'school/adminedit_school.html', context)
+
 # ========== Super-Admin Delete School ========== #
 @login_required(login_url='login')
 @user_passes_test(check_role_superuser)
-def admin_School_Delete(request, school_slug):
-    school = get_object_or_404(School, slug=school_slug)
+def admin_School_Delete(request, id):
+    school = get_object_or_404(School, id=id)
     user = CustomUser.objects.get(email = school.user)
     school.delete()
     user.delete()
@@ -180,7 +199,7 @@ def admin_School_Delete(request, school_slug):
 @user_passes_test(check_role_superuser)
 def admin_view_department(request, pk=None):
     school = get_object_or_404(School, pk=pk)
-    departments = Department.objects.filter(school=school)
+    departments = Department.objects.filter(school=school).annotate(students=Count('student_department'))
     # students = Student.objects.filter(department=departments).count()
     context = {
         'school': school,
@@ -306,16 +325,12 @@ def school_addDept(request):
         department_form = DeptForm(request.POST)       
         if form.is_valid() and department_form.is_valid():
             name = form.cleaned_data['name']
-            mobile = form.cleaned_data['mobile']
-            address = form.cleaned_data['address']
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             user = CustomUser.objects.create_user(name = name,
                                             username=username, 
                                             email=email,
-                                            mobile=mobile, 
-                                            address=address,
                                             password=password)
             user.is_HOD = True
             user.save()
@@ -324,7 +339,7 @@ def school_addDept(request):
             department.user = user
             department.school = get_school(request)
             department_name = department_form.cleaned_data['department_name']
-            department.slug = slugify(department_name)+'-'+str(user.id)
+            department_code = department_form.cleaned_data['department_code']
             department.save()
 
             messages.success(request, 'Department has been created sucessfully!')
@@ -360,8 +375,8 @@ def schoolview_allDept(request):
 # ========== SCHOOL VIEW DEPARTMENT Detail ========== #
 @login_required(login_url='login')
 @user_passes_test(check_role_school)
-def school_viewsdepartment_detail(request, dept_slug):
-    department = get_object_or_404(Department, slug=dept_slug)
+def school_viewsdepartment_detail(request, id):
+    department = get_object_or_404(Department, id=id)
     department_students = Student.objects.filter(department=department)
 
     context = {
@@ -375,8 +390,8 @@ def school_viewsdepartment_detail(request, dept_slug):
 
 @login_required(login_url='login')
 @user_passes_test(check_role_school)
-def SchoolDelete_department(request, dept_slug):
-    department = get_object_or_404(Department, slug=dept_slug)
+def SchoolDelete_department(request, id):
+    department = get_object_or_404(Department, id=id)
     user = CustomUser.objects.get(email = department.user)
     department.delete()
     user.delete()
@@ -405,8 +420,6 @@ def edit_Department(request, pk=None):
         department_form = DeptForm(request.POST,  instance=department)
         if form.is_valid() and department_form.is_valid():
             name = form.cleaned_data['name']
-            mobile = form.cleaned_data['mobile']
-            address = form.cleaned_data['address']
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
 
@@ -415,7 +428,7 @@ def edit_Department(request, pk=None):
             department = department_form.save(commit=False)
             department.school = get_school(request)
             department_name = department_form.cleaned_data['department_name']
-            department.slug = slugify(department_name)
+            department_code = department_form.cleaned_data['department_code']
 
             department.save()
             messages.success(request, 'Department updated successfully!')
@@ -432,10 +445,6 @@ def edit_Department(request, pk=None):
     }
     return render(request, 'school/schoolAdmin_templates/schooledit_department.html', context)
 
-# class SchoolChangePasswordView(SuccessMessageMixin, PasswordChangeView):
-#     template_name = 'school/school_templates/school_changePassword.html'
-#     success_message = "Successfully Changed Your Password"
-#     success_url = reverse_lazy('departmentProfile')
 
 
 # ======================== DEPARTMENT OD FUNCTIONS ======================== #

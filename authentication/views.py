@@ -142,12 +142,10 @@ def logout(request):
 def adminDashboard(request):
     schoolcount = School.objects.all().count()
     allstudent = Student.objects.all().count()
-    pendingschoolcount = School.objects.filter(is_approved=False).count()
 
     context = {
         'schoolcount':schoolcount,
         'allstudent': allstudent,
-        'pendingschoolcount':pendingschoolcount,
     }
     return render(request, 'authentication/adminDashboard.html', context)
 

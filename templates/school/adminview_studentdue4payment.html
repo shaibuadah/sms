@@ -30,7 +30,7 @@
                             <th scope="col">School</th>
                             <th scope="col">Account No</th>
                             <th scope="col">Bank</th>
-                            <th scope="col">Action</th>
+                            {% comment %} <th scope="col">Action</th> {% endcomment %}
                         </tr>
                     </thead>
                     <tbody>
@@ -43,9 +43,9 @@
                             <td>{{student.school.school_name}}</td>
                             <td>{{student.account_number}}
                             <td>{{student.bank_name}}</td>
-                            <td>
+                            {% comment %} <td>
                                 <input class="form-check-input" value="{{student.email}}" name="payment" type="checkbox">                                
-                            </td>
+                            </td> {% endcomment %}
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -55,7 +55,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Payment Options</h5>
                                 <a href="{% url 'send-paymentconfirmation' %}" class="btn btn-outline-primary">Pay all Students</a>
-                                <button type="submit" class="btn btn-outline-success">Pay Selected Student(s)</button>
+                                {% comment %} <button type="submit" class="btn btn-outline-success">Pay Selected Student(s)</button> {% endcomment %}
                             </div>
                         </div>
                     </div>

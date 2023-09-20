@@ -33,7 +33,7 @@
                      {% for student in students %}
                         <tr>
                            <th scope="row">{{forloop.counter}}</th>
-                           <td>{{student.student_name}}</td>
+                           <td>{{student.fname}} {{student.lname}}</td>
                            <td>student@email.com</td>
                            <td>{{student.school.school_name}}</td>
                            <td>{{student.department}}</td>

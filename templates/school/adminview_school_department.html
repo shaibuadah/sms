@@ -3,11 +3,11 @@
 {% block content %}
 
 <div class="pagetitle">
-   <h1>Department(s) in {{school}} School</h1>
+   <h1>Department</h1>
    <nav>
        <ol class="breadcrumb">
            <li class="breadcrumb-item"><a href="{% url "adminDashboard" %}">Home</a></li>
-           <li class="breadcrumb-item active">Students by Department</li>
+           <li class="breadcrumb-item active">All Department</li>
        </ol>
    </nav>
 </div>
@@ -21,11 +21,11 @@
                 <table class="table datatable">
                    <thead>
                       <tr>
-                         <th scope="col">#</th>
+                         <th scope="col">S/N</th>
                          <th scope="col">Department Name</th>
+                         <th scope="col">HOD Name</th>
                          <th scope="col">Email</th>
-                         <th scope="col">No of Students</th>
-                         <th scope="col">Actions</th>
+                         <th scope="col">No Students</th>
                       </tr>
                    </thead>
                    <tbody>
@@ -33,15 +33,11 @@
                         <tr>
                            <th scope="row">{{forloop.counter}}</th>
                            <td>{{department.department_name}}</td>
-                           <td>dept@email.com</td>
-                           <td>{{fooditems}}</td>
-                           <td>
-                              <a href="#"><i class="text-danger bi bi-trash"></a>
-                              <a href="#"><i class="text-success bi bi-pencil-square"></a>
-                              <a href="#"><i class="text-danger bi bi-trash"></a>
-                              
-                           </td>
+                           <td>{{department.user.name}}</td>
+                           <td>{{department.user.email}}</td>
+                           <td>{{department.students}}</td>
                       </tr>
+                      
                      {% endfor %}
                    </tbody>
                 </table>
@@ -50,5 +46,7 @@
        </div>
     </div>
  </section>
+
+ 
 
  {% endblock %}

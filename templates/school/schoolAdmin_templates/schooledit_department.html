@@ -28,6 +28,11 @@
                         <label for="inputName5" class="form-label">Department Name</label>
                         {% render_field department_form.department_name class="form-control" id="department_name"%}
                     </div>
+                    <div class="col-12">
+                        <label for="inputAddress5" class="form-label">Department Code</label>
+                        {% render_field department_form.department_code class="form-control" id="address" rows="3" placeholder="1234 Main St"%}
+                    </div>
+
                     <div class="col-md-12">
                         <label for="inputEmail5" class="form-label">Email</label>
                         {% render_field form.email class="form-control" id="email"%}
@@ -36,15 +41,7 @@
                         <label for="inputEmail5" class="form-label">Username</label>
                         {% render_field form.username class="form-control" id="username"%}
                     </div>
-                    <div class="col-md-6">
-                        <label for="inputEmail5" class="form-label">Mobile</label>
-                        {% render_field form.mobile class="form-control" id="mobile"%}
-                    </div>
-                    <div class="col-12">
-                        <label for="inputAddress5" class="form-label">Address</label>
-                        {% render_field form.address class="form-control" id="address" rows="3" placeholder="1234 Main St"%}
-                    </div>
-
+          
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">Submit</button>
                         <button type="reset" class="btn btn-secondary">Reset</button>

@@ -42,7 +42,7 @@
                 <a class="social" href="#"><i class="fa fa-linkedin"></i></a>
               </li>
               <li class="dropdown">
-                <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-lock"></i> Login</a>
+                {% comment %} <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-lock"></i> Login</a> {% endcomment %}
                 <div class="dropdown-menu">
                   <form method="post" {% url 'login' %}>
                     {% csrf_token %}
@@ -82,8 +82,8 @@
             <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
                 <li><a class="active" href="blog.html">Home</a></li>
-                <li><a href="page-about.html">About</a></li>
-                <li><a href="page-contact.html">Contact</a></li>
+                {% comment %} <li><a href="page-about.html">About</a></li>
+                <li><a href="page-contact.html">Contact</a></li> {% endcomment %}
               </ul>
               <ul class="nav navbar-nav navbar-right">
                 <li><a class="btn btn-primary" href="{% url 'login' %}"><i class="fa fa-sign-in"></i> Login</a> 

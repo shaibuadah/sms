@@ -41,24 +41,15 @@
                 </ul>
                 <div class="tab-content pt-2">
                     <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                        <h5 class="card-title">About</h5>
-                        <p class="small fst-italic">{{school.user.about}}</h5>
                         <div class="row">
-                        <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                        <div class="col-lg-3 col-md-4 label ">School Name</div>
                         <div class="col-lg-9 col-md-8">{{school.school_name}}</div>
                         </div>
                         <div class="row">
                         <div class="col-lg-3 col-md-4 label">Mobile</div>
-                        <div class="col-lg-9 col-md-8">{{school.user.mobile}}</div>
+                        <div class="col-lg-9 col-md-8">{{school.mobile}}</div>
                         </div>
-                        <div class="row">
-                        <div class="col-lg-3 col-md-4 label">Address</div>
-                        <div class="col-lg-9 col-md-8">{{school.user.address}}</div>
-                        </div>
-                        <div class="row">
-                        <div class="col-lg-3 col-md-4 label">State</div>
-                        <div class="col-lg-9 col-md-8">{{school.user.state}}</div>
-                        </div>
+            
                         <div class="row">
                         <div class="col-lg-3 col-md-4 label">Email</div>
                         <div class="col-lg-9 col-md-8">{{school.user.email}}</div>
@@ -97,17 +88,20 @@
                                     <th scope="col">Student Name</th>
                                     <th scope="col">Student Email</th>
                                     <th scope="col">Due for Payment</th>
-                                    <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for student in students %}
                                     <tr>
                                     <th scope="row">{{forloop.counter}}</th>
-                                    <td>{{student.student_name}}</td>
-                                    <td>student@email.com</td>
-                                    <td>Yes</td>
-                                    <td><a href="{% url "admin_viewschool_detail" school.slug %}" class="btn btn-success">Pay Now</a></td>
+                                    <td>{{student.fname}} {{student.lname}}</td>
+                                    <td>{{student.email}}</td>
+                                    <td>{% if student.payment_status == False %}
+                                        Not Paid
+                                    {% else %}
+                                        Paid
+                                    {% endif %}</td>
+                                    
                                 </tr>
                                 {% endfor %}
                             </tbody>
