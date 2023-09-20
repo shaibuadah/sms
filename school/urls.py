@@ -25,6 +25,7 @@ urlpatterns = [
     path('department/edit/<int:pk>/', views.edit_Department, name='edit_department'),
     path('school_delete/<slug:dept_slug>/', views.SchoolDelete_department, name='school-delete-department'),
     path('school_view/allStudents/', views.schoolview_allStudent, name='school-view-allStudents'),
+    # path('department/deptchange-password/', login_required(SchoolChangePasswordView.as_view(), login_url='/login/'), name='Deptchange-password'),
 
 
     # ================== DEPARTMENT URLS ================== #
@@ -34,4 +35,8 @@ urlpatterns = [
     path('dept_delete/<int:pk>/student/', views.deptDelete_student, name='department-delete-student'),
     path('department_edit/<int:pk>student/', views.deptedit_student, name='dept-editstudent'),
 
+
+    path('department/profile/', views.departmentProfile, name='departmentProfile'),
+    
+  
 ]

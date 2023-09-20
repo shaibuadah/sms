@@ -176,3 +176,14 @@ def adminProfile(request):
     }
     return render(request, 'authentication/adminProfile.html', context)
 
+
+
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse_lazy
+
+
+class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
+    template_name = 'authentication/change_password.html'
+    success_message = "Successfully Changed Your Password"
+    success_url = reverse_lazy('myAccount')
