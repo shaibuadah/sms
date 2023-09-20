@@ -22,7 +22,16 @@ urlpatterns = [
     path('Add_Dept', views.school_addDept, name='addDept'),
     path('view_allDept', views.schoolview_allDept, name='view_allDept'),
     path('<slug:dept_slug>', views.school_viewsdepartment_detail, name='view-Deptdetails'),
-    path('delete/<slug:dept_slug>/', views.SchoolDelete_department, name='school-delete-department'),
-    path('allStudents/', views.schoolview_allStudent, name='school-view-allStudents'),
+    path('department/edit/<int:pk>/', views.edit_Department, name='edit_department'),
+    path('school_delete/<slug:dept_slug>/', views.SchoolDelete_department, name='school-delete-department'),
+    path('school_view/allStudents/', views.schoolview_allStudent, name='school-view-allStudents'),
+
+
+    # ================== DEPARTMENT URLS ================== #
+    path('department/addstudent/', views.dept_addstudent, name='department-addStudents'),
+    path('department_view/allStudents/', views.deptview_allstudents, name='departmentview-allStudents'),
+    path('department/<int:pk>', views.deptview_studentdetail, name='deptview-studentdetails'),
+    path('dept_delete/<int:pk>/student/', views.deptDelete_student, name='department-delete-student'),
+    path('department_edit/<int:pk>student/', views.deptedit_student, name='dept-editstudent'),
 
 ]

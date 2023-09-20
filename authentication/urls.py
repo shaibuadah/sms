@@ -1,6 +1,6 @@
 from django.urls import path, include
 from . import views
-from school.views import schoolDashboard
+from school.views import schoolDashboard, deptDashboard
 
 
 urlpatterns = [
@@ -14,7 +14,7 @@ urlpatterns = [
 
     path('adminDashboard/', views.adminDashboard, name='adminDashboard'),
     path('schoolDashboard/', schoolDashboard, name='schoolDashboard'),
-    path('deptDashboard/', views.deptDashboard, name='deptDashboard'),
+    path('deptDashboard/', deptDashboard, name='deptDashboard'),
 
     path('school/', include('school.urls')),
 ]
