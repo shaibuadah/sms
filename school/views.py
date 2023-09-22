@@ -477,7 +477,7 @@ def departmentProfile(request):
         department_form = DeptForm(request.POST, instance=department)
         if form.is_valid() and department_form.is_valid():
             obj = form.save(commit=False)
-            obj.name = request.POST['department_name']
+            obj.name = request.POST['name']
             obj.save()
             department_form.save()
             messages.success(request, 'Department info updated successfully.')

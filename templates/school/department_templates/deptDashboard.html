@@ -12,9 +12,9 @@
 </div>
 <section class="section dashboard">
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-12">
             <div class="row">
-            <a href="{% url "departmentview-allStudents" %}" class="col-xxl-4 col-md-6">
+            <a href="{% url "departmentview-allStudents" %}" class="col-xxl-12 col-md-12">
                 <div class="card info-card sales-card">
                     <div class="filter">
                         
@@ -63,7 +63,6 @@
                             <td>{{student.mobile}}</td>
                             <td>{{student.account_number}}</td>
                             <td>{{student.bank_name}}</td>
-                            <td><span class="badge bg-success">Approved</span></td>
                         </tr>
                         {% endfor %}
                         

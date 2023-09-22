@@ -11,7 +11,7 @@ class SchoolForm(forms.ModelForm):
 class SchoolInfoForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['email', 'mobile',]
+        fields = ['email', 'name',]
 
 class DeptForm(forms.ModelForm):
     class Meta:

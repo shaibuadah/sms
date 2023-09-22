@@ -37,23 +37,19 @@
                 </ul>
                 <div class="tab-content pt-2">
                     <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                        <h5 class="card-title">About</h5>
-                        <p class="small fst-italic">{{profile.about}}</h5>
+                        <h5 class="card-title"></h5>
+                        
                         <div class="row">
-                        <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                        <div class="col-lg-3 col-md-4 label ">Department Name</div>
                         <div class="col-lg-9 col-md-8">{{department.department_name}}</div>
                         </div>
                         <div class="row">
-                        <div class="col-lg-3 col-md-4 label">Mobile</div>
-                        <div class="col-lg-9 col-md-8">{{profile.mobile}}</div>
-                        </div>
+                            <div class="col-lg-3 col-md-4 label ">Department Code</div>
+                            <div class="col-lg-9 col-md-8">{{department.department_code}}</div>
+                            </div>
                         <div class="row">
-                        <div class="col-lg-3 col-md-4 label">Address</div>
-                        <div class="col-lg-9 col-md-8">{{profile.address}}</div>
-                        </div>
-                        <div class="row">
-                        <div class="col-lg-3 col-md-4 label">State</div>
-                        <div class="col-lg-9 col-md-8">{{profile.state}}</div>
+                        <div class="col-lg-3 col-md-4 label">Username</div>
+                        <div class="col-lg-9 col-md-8">{{profile.username}}</div>
                         </div>
                         <div class="row">
                         <div class="col-lg-3 col-md-4 label">Email</div>
@@ -66,51 +62,34 @@
                             <div class="row mb-3">
                                 <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Department Admin Name (HOD)</label>
                                 <div class="col-md-8 col-lg-9">
-                                    {% render_field form.name class="form-control" id="name" placeholder="School Name" %}
+                                    {% render_field form.name class="form-control" id="name"%}
     
                                 </div>
                             </div>
                         <div class="row mb-3">
                             <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Department Name</label>
                             <div class="col-md-8 col-lg-9">
-                                {% render_field department_form.department_name class="form-control" id="name" placeholder="School Name" %}
+                                {% render_field department_form.department_name class="form-control" id="name"%}
 
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
+                            <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Department Code</label>
                             <div class="col-md-8 col-lg-9">
-                                {% render_field form.about rows="3" class="form-control" id="address" placeholder="About School" %}
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
-                            <div class="col-md-8 col-lg-9">
-                                {% render_field form.address rows="3" class="form-control" id="address" placeholder="School Address" %}
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
-                            <div class="col-md-8 col-lg-9">
-                                {% render_field form.state class="form-control" id="state" placeholder="State" %}
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
-                            <div class="col-md-8 col-lg-9"> 
-                                {% render_field form.mobile class="form-control" id="mobile" placeholder="School Mobile Number" %}
+                                {% render_field department_form.department_code class="form-control" id="name" %}
+
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                             <div class="col-md-8 col-lg-9">
-                                {% render_field form.email class="form-control" id="email" placeholder="Email Address" %}
+                                {% render_field form.email class="form-control" id="email"%}
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="Email" class="col-md-4 col-lg-3 col-form-label">Username</label>
                             <div class="col-md-8 col-lg-9">
-                                {% render_field form.username class="form-control" id="username" placeholder="Email Address" %}
+                                {% render_field form.username class="form-control" id="username"%}
                             </div>
                         </div>
                         <div class="text-center">
